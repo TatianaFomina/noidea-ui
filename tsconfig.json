@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2020",
     "module": "esnext",
     "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "strictNullChecks": false,
+    "baseUrl": "./",
+    "paths": {
+      "vue": ["node_modules/vue"]
+    },
+    "types": ["vite/client"],
+    "outDir": "./tscompiled/"
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 }

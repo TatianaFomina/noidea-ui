@@ -5,15 +5,20 @@
       "es2021": true,
       "node": true
   },
+  "parser": "vue-eslint-parser",
   "extends": [
     "plugin:vue/vue3-recommended",
     "eslint:recommended",
-    "@vue/typescript/recommended"
+    "@vue/standard",
+    "@vue/typescript/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   "parserOptions": {
       "ecmaVersion": 2021
   },
   "plugins": [
+    "vue",
+    "@typescript-eslint/eslint-plugin",
   ],
   "rules": {
     "quotes": ["error", "single"],
