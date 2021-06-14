@@ -1,0 +1,42 @@
+{
+  "root": true,
+  "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+  },
+  "extends": [
+    "plugin:vue/vue3-recommended",
+    "eslint:recommended",
+    "@vue/typescript/recommended"
+  ],
+  "parserOptions": {
+      "ecmaVersion": 2021
+  },
+  "plugins": [
+  ],
+  "rules": {
+    "quotes": ["error", "single"],
+    "@typescript-eslint/semi": ["error", "never"],
+    "no-trailing-spaces": ["error", {
+      "skipBlankLines": false
+    }],
+    "object-curly-spacing": ["error", "always", {
+      "arraysInObjects": false,
+      "objectsInObjects": false
+    }],
+    "padding-line-between-statements": ["error",
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
+      { "blankLine": "any", "prev": "directive", "next": "directive" },
+      { "blankLine": "never", "prev": "import", "next": "import" }
+    ],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": 1,
+      "multiline": {
+        "max": 1,
+        "allowFirstLine": true
+      }
+    }]
+  }
+}
