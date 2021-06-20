@@ -31,6 +31,7 @@ export const Accent = Template.bind({})
 Accent.args = {
   color: 'accent'
 }
+
 export const Border = Template.bind({})
 Border.args = {
   look: 'border'

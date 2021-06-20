@@ -30,11 +30,17 @@ export default defineComponent({
     },
     look: {
       type: String,
-      default: 'solid'
+      default: 'solid',
+      validator(value) {
+        return ['solid', 'border'].includes(value)
+      }
     },
     color: {
       type: String,
-      default: 'primary'
+      default: 'primary',
+      validator(value) {
+        return ['primary', 'accent'].includes(value)
+      }
     },
     disabled: {
       type: Boolean,
