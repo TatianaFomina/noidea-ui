@@ -1,45 +1,42 @@
-import MyButton from './Button.vue';
+import Button from '../components/button/button.vue'
 
 export default {
-  title: 'Example/Button',
-  component: MyButton,
+  title: 'Components/Button',
+  component: Button,
   argTypes: {
-    backgroundColor: { control: 'color' },
-    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
-    onClick: {},
-  },
-};
+    color: { control: { type: 'select', options: ['primary', 'accent']}},
+    look: { control: { type: 'select', options: ['solid', 'border']}},
+    default: {
+      control: 'text',
+      description: 'Slot content',
+      defaultValue: 'Test'
+    }
+  }
+}
 
 const Template = (args) => ({
-  // Components used in your story `template` are defined in the `components` object
-  components: { MyButton },
-  // The story's `args` need to be mapped into the template through the `setup()` method
+  components: { Button },
   setup() {
-    return { args };
+    return { args }
   },
-  // And then the `args` are bound to your component with `v-bind="args"`
-  template: '<my-button v-bind="args" />',
-});
+  template: '<Button v-bind="args">{{args.default}}</Button>'
+})
 
-export const Primary = Template.bind({});
+export const Primary = Template.bind({})
 Primary.args = {
-  primary: true,
-  label: 'Button',
-};
+  color: 'primary'
+}
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
-};
+export const Accent = Template.bind({})
+Accent.args = {
+  color: 'accent'
+}
+export const Border = Template.bind({})
+Border.args = {
+  look: 'border'
+}
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'Button',
-};
-
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
-};
+export const Rounded = Template.bind({})
+Rounded.args = {
+  rounded: 'true'
+}

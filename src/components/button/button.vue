@@ -1,5 +1,6 @@
 <template>
-  <button :class="[classNames]"
+  <button :class="[classNames, rounded ? 'rounded-full' : 'rounded-md']"
+          class="px-12 py-2 uppercase text-sm font-bold focus:outline-none disabled:cursor-not-allowed transition-colors"
           :disabled="disabled"
   >
     <slot />
@@ -8,6 +9,17 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
+
+const classes = {
+  solid: {
+    primary: 'text-white bg-blue-200 hover:bg-blue-400 border-blue-400 border-b-2 disabled:bg-blue-100 disabled:text-blue-50 disabled:border-b-transparent',
+    accent: 'text-white bg-pink-300 hover:bg-pink-500 border-pink-500 border-b-2 disabled:bg-pink-100 disabled:text-pink-50 disabled:border-b-transparent'
+  },
+  border: {
+    primary: 'text-blue-300 border-2 border-blue-300 hover:text-white hover:bg-blue-300 disabled:bg-blue-50 disabled:text-blue-100 disabled:border-transparent',
+    accent: 'text-pink-300 border-2 border-pink-300 hover:text-white hover:bg-pink-300 disabled:bg-pink-50 disabled:text-pink-100 disabled:border-transparent'
+  }
+}
 
 export default defineComponent({
   name: 'Button',
@@ -20,7 +32,7 @@ export default defineComponent({
       type: String,
       default: 'solid'
     },
-    theme: {
+    color: {
       type: String,
       default: 'primary'
     },
@@ -31,85 +43,8 @@ export default defineComponent({
   },
   computed: {
     classNames() {
-      return [`${this.look}-${this.theme}`, this.rounded && 'rounded']
+      return classes[this.look][this.color]
     }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  @import 'src/variables.scss';
-
-  button {
-    border: none;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: $text-size-sm;
-    font-weight: bold;
-  }
-
-  .solid-primary {
-    background: $color-primary;
-    color: white;
-
-    &:hover {
-      background: $blue-4;
-    }
-
-    &:disabled {
-      background: $blue-1;
-    }
-  }
-
-  .solid-accent {
-    background: $color-accent;
-    color: white;
-
-    &:hover {
-      background: $pink-4;
-    }
-
-    &:disabled {
-      background: $pink-1;
-    }
-  }
-
-  .border-primary {
-    border: 2px solid $color-primary;
-    color: $color-primary;
-
-    &:hover {
-      background: $blue-3;
-      color: white;
-    }
-
-    &:disabled {
-      background: $blue-0;
-      color: $blue-2;
-    }
-  }
-
-  .border-accent {
-    border: 2px solid $color-accent;
-    color: $color-accent;
-
-    &:hover {
-      background: $pink-3;
-      color: white;
-    }
-
-    &:disabled {
-      background: $pink-0;
-      color: $pink-2;
-    }
-  }
-
-  .rounded {
-    border-radius: 10000px;
-  }
-
-</style>

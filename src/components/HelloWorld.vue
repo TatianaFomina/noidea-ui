@@ -44,7 +44,10 @@
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
-  <Button>
+  <Button look="border"
+          color="primary"
+          rounded="true"
+  >
     Hello
   </Button>
 </template>
