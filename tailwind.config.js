@@ -32,9 +32,17 @@ module.exports = {
       coal: {
         50: '#C0CFD6',
         100: '#3D3D4A'
-      }
-    },
-    extend: {}
+      },
+      gray: {
+        50: '#ececec',
+        100: '#dbdbdb',
+        200: '#e6e6e6',
+        300: '#cbcbcb',
+        400: '#9e9e9e',
+        500: '#7e7e7e'
+      },
+      red: '#eb4141'
+    }
   },
   variants: {
     extend: {}
