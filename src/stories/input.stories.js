@@ -21,7 +21,7 @@ const Template = (args) => ({
   setup() {
     return { args }
   },
-  template: '<Input v-bind="args"> <template v-if="args.prefix" #prefix> {{ args.prefix }} </template>  <template v-if="args.suffix" #suffix> {{ args.suffix }} </template></Input>'
+  template: '<div style="max-width: 320px"><Input v-bind="args"> <template v-if="args.prefix" #prefix> {{ args.prefix }} </template>  <template v-if="args.suffix" #suffix> {{ args.suffix }} </template></Input></div>'
 })
 
 export const Default = Template.bind({})
@@ -30,4 +30,14 @@ Default.args = {}
 export const Prefixed = Template.bind({})
 Prefixed.args = {
   prefix: 'test'
+}
+
+export const Suffixed = Template.bind({})
+Suffixed.args = {
+  suffix: 'test'
+}
+
+export const Error = Template.bind({})
+Error.args = {
+  error: 'Invalid value'
 }

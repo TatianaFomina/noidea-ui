@@ -7,7 +7,7 @@
       >
         <slot name="prefix" />
       </div>
-      <input class="border-gray-50 border-t border-b h-9 focus:outline-none focus:border-gray-300 px-4 rounded-full transition disabled:cursor-not-allowed"
+      <input class="border-gray-50 border-t border-b h-9 focus:outline-none focus:border-gray-300 px-4 rounded-full transition disabled:cursor-not-allowed flex-1"
              :class="[$slots.prefix ? 'rounded-l-none' : 'border-l', $slots.suffix ? 'rounded-r-none' : 'border-r']"
              :type="type"
              :placeholder="placeholder"
@@ -21,19 +21,19 @@
         <slot name="suffix" />
       </div>
     </div>
-    <!-- <transition enter-active-class="transition"
-                enter-from-class="transform -transtale-y-full opacity-0"
-                enter-to-class="translate-y-0 opacity-100"
-                leave-active-class="transition"
-                leave-from-class="transform translate-y-0 opacity-100"
-                leave-to-class="-transtale-y-full opacity-0"
-    > -->
-    <div v-if="error"
-         class="text-xs text-red px-4"
+    <transition enter-active-class="transition duration-150"
+                enter-from-class="transform -translate-y-full opacity-0"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition duration-150"
+                leave-from-class="opacity-100 transform translate-y-0"
+                leave-to-class="opacity-0 -translate-y-full"
     >
-      {{ error }}
-    </div>
-    <!-- </transition> -->
+      <div v-if="errorMessage"
+           class="text-xs text-red px-4 truncate"
+      >
+        {{ errorMessage }}
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -69,6 +69,21 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
+  data() {
+    return {
+      errorMessage: null as string
+    }
+  },
+  watch: {
+    error: {
+      handler(value) {
+        this.$nextTick(() => {
+          this.errorMessage = value
+        })
+      },
+      immediate: true
+    }
+  },
   methods: {
     handleInput(value: string) {
       this.$emit('update:modelValue', value)
