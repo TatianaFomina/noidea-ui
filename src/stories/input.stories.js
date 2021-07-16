@@ -27,6 +27,11 @@ const Template = (args) => ({
 export const Default = Template.bind({})
 Default.args = {}
 
+export const Label = Template.bind({})
+Label.args = {
+  label: 'Name'
+}
+
 export const Prefixed = Template.bind({})
 Prefixed.args = {
   prefix: 'test'
