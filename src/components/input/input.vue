@@ -1,6 +1,8 @@
 <template>
   <div class="text-gray-500 text-sm space-y-0.5">
-    <label class="text-xs px-4 font-medium">{{ label }}</label>
+    <label class="text-xs px-4 font-medium"
+           for="input"
+    >{{ label }}</label>
     <div class="flex">
       <div v-if="$slots.prefix"
            class="border rounded-l-full pl-4 pr-3 text-gray-400 font-medium leading-[20px] flex items-center"
@@ -8,13 +10,30 @@
       >
         <slot name="prefix" />
       </div>
-      <input class="border-t border-b h-9 focus:outline-none px-4 rounded-full transition disabled:cursor-not-allowed flex-1"
-             :class="[$slots.prefix ? 'rounded-l-none' : 'border-l', $slots.suffix ? 'rounded-r-none' : 'border-r', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-50 focus:border-gray-300']"
-             :type="type"
+      <input id="input"
+             class="border-t border-b h-9 focus:outline-none px-4 rounded-full transition disabled:cursor-not-allowed flex-1"
+             :class="[$slots.prefix ? 'rounded-l-none' : 'border-l', $slots.suffix || isPassword ? 'rounded-r-none' : 'border-r', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-50 focus:border-gray-300']"
+             :type="proxyType"
              :placeholder="placeholder"
              :disabled="disabled"
              @input="handleInput"
       >
+      <div v-if="isPassword"
+           class="border rounded-r-full pr-4 pl-3 text-gray-400 hover:text-gray-300 font-medium leading-[20px] flex items-center focus-within:ring ring-gray-50"
+           :class="[error ? 'border-red' : 'border-gray-300']"
+      >
+        <button aria-label="Toggle password visibility"
+                class="focus:outline-none"
+                @click="togglePasswordVisibility"
+        >
+          <EyeIcon v-if="proxyType === 'password'"
+                   class="w-4 h-4"
+          />
+          <EyeOffIcon v-if="proxyType === 'text'"
+                      class="w-4 h-4"
+          />
+        </button>
+      </div>
 
       <div v-if="$slots.suffix"
            class="border rounded-r-full pr-4 pl-3 text-gray-400 font-medium leading-[20px] flex items-center"
@@ -41,9 +60,15 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
+import EyeIcon from './components/eye-icon.vue'
+import EyeOffIcon from './components/eye-off-icon.vue'
 
 export default defineComponent({
   name: 'Input',
+  components: {
+    EyeIcon,
+    EyeOffIcon
+  },
   props: {
     modelValue: {
       type: String,
@@ -73,7 +98,13 @@ export default defineComponent({
   emits: ['update:modelValue'],
   data() {
     return {
-      errorMessage: null as string
+      errorMessage: null as string,
+      proxyType: this.type
+    }
+  },
+  computed: {
+    isPassword() {
+      return this.type === 'password'
     }
   },
   watch: {
@@ -89,6 +120,13 @@ export default defineComponent({
   methods: {
     handleInput(value: string) {
       this.$emit('update:modelValue', value)
+    },
+    togglePasswordVisibility() {
+      if (this.proxyType === 'password') {
+        this.proxyType = 'text'
+      } else {
+        this.proxyType = 'password'
+      }
     }
   }
 })
