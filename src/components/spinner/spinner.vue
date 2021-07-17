@@ -58,22 +58,22 @@ export default defineComponent({
     }
   },
   computed: {
-    width() {
+    width(): number {
       return sizes[this.size]?.width || sizes.md.width
     },
-    strokeWidth() {
+    strokeWidth(): number {
       return sizes[this.size].strokeWidth || sizes.md.strokeWidth
     },
-    centerOffset() {
+    centerOffset(): number {
       return this.width / 2
     },
-    radius() {
+    radius(): number {
       return this.centerOffset - this.strokeWidth / 2
     },
-    offset() {
+    offset(): number {
       return this.circumference - this.percent / 100 * this.circumference
     },
-    circumference() {
+    circumference(): number {
       return this.radius * 2 * Math.PI
     }
   },

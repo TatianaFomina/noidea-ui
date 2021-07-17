@@ -115,7 +115,7 @@ export default defineComponent({
     }
   },
   methods: {
-    handleInput(value: string) {
+    handleInput(value: Event) {
       this.$emit('update:modelValue', value)
     },
     togglePasswordVisibility() {

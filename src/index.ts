@@ -1,4 +1,4 @@
-export { default as HelloWorld } from '/~/components/HelloWorld.vue'
+export { default as Button } from './components/button/button.vue'
+export { default as Input } from './components/input/input.vue'
+export { default as Spinner } from './components/spinner/spinner.vue'
 
-
-const a = { a: 1 }

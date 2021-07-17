@@ -31,14 +31,14 @@ export default defineComponent({
     look: {
       type: String,
       default: 'solid',
-      validator(value) {
+      validator(value: string) {
         return ['solid', 'border'].includes(value)
       }
     },
     color: {
       type: String,
       default: 'primary',
-      validator(value) {
+      validator(value: string) {
         return ['primary', 'accent'].includes(value)
       }
     },

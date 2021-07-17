@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "strict": true,
+    "noImplicitThis": false,
     "strictNullChecks": false,
     "baseUrl": "./",
     "paths": {
