@@ -1,6 +1,6 @@
 <template>
   <button :class="[classNames, rounded ? 'rounded-full' : 'rounded-md']"
-          class="px-12 py-2 uppercase text-sm font-bold focus:outline-none disabled:cursor-not-allowed transition-colors"
+          class="px-12 py-2 uppercase text-sm font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors"
           :disabled="disabled"
   >
     <slot />
@@ -12,12 +12,12 @@ import { defineComponent } from 'vue'
 
 const classes = {
   solid: {
-    primary: 'text-white bg-blue-200 hover:bg-blue-400 border-blue-400 border-b-2 disabled:bg-blue-100 disabled:text-blue-50 disabled:border-b-transparent',
-    accent: 'text-white bg-pink-300 hover:bg-pink-500 border-pink-500 border-b-2 disabled:bg-pink-100 disabled:text-pink-50 disabled:border-b-transparent'
+    primary: 'text-white bg-blue-200 hover:bg-blue-400 border-blue-400 border-b-2 disabled:bg-blue-100 disabled:text-blue-50 disabled:border-b-transparent ring-blue-50',
+    accent: 'text-white bg-pink-300 hover:bg-pink-500 border-pink-500 border-b-2 disabled:bg-pink-100 disabled:text-pink-50 disabled:border-b-transparent ring-pink-50'
   },
   border: {
-    primary: 'text-blue-300 border-2 border-blue-300 hover:text-white hover:bg-blue-300 disabled:bg-blue-50 disabled:text-blue-100 disabled:border-transparent',
-    accent: 'text-pink-300 border-2 border-pink-300 hover:text-white hover:bg-pink-300 disabled:bg-pink-50 disabled:text-pink-100 disabled:border-transparent'
+    primary: 'text-blue-300 border-2 border-blue-300 hover:text-white hover:bg-blue-300 disabled:bg-blue-50 disabled:text-blue-100 disabled:border-transparent ring-blue-50',
+    accent: 'text-pink-300 border-2 border-pink-300 hover:text-white hover:bg-pink-300 disabled:bg-pink-50 disabled:text-pink-100 disabled:border-transparent ring-pink-50'
   }
 }
 
