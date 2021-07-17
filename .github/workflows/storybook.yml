@@ -1,0 +1,18 @@
+name: Build and Deploy
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+      - name: Install and Deploy 🔧
+        run: | # Install npm packages and deploy Storybook files
+          npm install
+          npm run deploy-storybook
+          
