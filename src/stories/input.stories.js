@@ -4,7 +4,6 @@ export default {
   title: 'Components/Input',
   component: Input,
   argTypes: {
-    size: { control: { type: 'select', options: ['sm', 'md', 'lg']}},
     type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'email']},
     label: { control: 'text' },
     disabled: { control: 'boolean' },
@@ -24,9 +23,6 @@ const Template = (args) => ({
   template: '<div style="max-width: 320px"><Input v-bind="args"> <template v-if="args.prefix" #prefix> {{ args.prefix }} </template>  <template v-if="args.suffix" #suffix> {{ args.suffix }} </template></Input></div>'
 })
 
-export const Default = Template.bind({})
-Default.args = {}
-
 export const Label = Template.bind({})
 Label.args = {
   label: 'Name'
@@ -45,9 +41,4 @@ Suffixed.args = {
 export const Error = Template.bind({})
 Error.args = {
   error: 'Invalid value'
-}
-
-export const Password = Template.bind({})
-Password.args = {
-  type: 'password'
 }
