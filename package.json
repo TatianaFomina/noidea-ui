@@ -10,7 +10,8 @@
     "deploy-storybook": "storybook-to-ghpages --out=.out"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.0.5",
+    "vue3-click-away": "^1.2.1"
   },
   "main": "./dist/components-kit.umd.js",
   "module": "./dist/components-kit.es.js",

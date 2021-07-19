@@ -29,8 +29,3 @@ export const Error = Template.bind({})
 Error.args = {
   error: 'Invalid value'
 }
-
-export const Password = Template.bind({})
-Password.args = {
-  type: 'password'
-}
