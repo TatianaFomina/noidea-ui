@@ -14,29 +14,37 @@
          @click="toggle"
          @keydown="onKeydown"
     >
-      <div class="flex-1 px-4 leading-8">
-        {{ selectedOption?.label }}
+      <div class="flex-1 px-4 leading-9">
+        {{ selectedOption && selectedOption.label }}
       </div>
       <div class="flex items-center px-4">
         <div class="arrow-down my-auto transition-transform"
              :class="[isOpen && 'transform rotate-180']"
         />
       </div>
-      <ul v-if="isOpen"
-          :aria-expanded="isOpen"
-          class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
-          role="listbox"
+      <transition enter-active-class="transition duration-150"
+                  enter-from-class="transform -translate-y-4 opacity-0"
+                  enter-to-class="opacity-100 translate-y-0"
+                  leave-active-class="transition duration-150"
+                  leave-from-class="opacity-100 transform translate-y-0"
+                  leave-to-class="opacity-0 -translate-y-4"
       >
-        <li v-for="(option, i) of options"
-            :key="option.value"
-            role="option"
-            class="px-4 h-9 leading-9"
-            :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
-            @click="select(option)"
+        <ul v-if="isOpen"
+            :aria-expanded="isOpen"
+            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
+            role="listbox"
         >
-          {{ option.label }}
-        </li>
-      </ul>
+          <li v-for="(option, i) of options"
+              :key="option.value"
+              role="option"
+              class="px-4 h-9 leading-9"
+              :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
+              @click="select(option)"
+          >
+            {{ option.label }}
+          </li>
+        </ul>
+      </transition>
     </div>
   </div>
 </template>
