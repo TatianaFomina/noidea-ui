@@ -12,9 +12,10 @@
          tabindex="0"
          @blur="close"
          @click="toggle"
+         @keydown="onKeydown"
     >
-      <div class="flex-1">
-        {{ modelValue }}
+      <div class="flex-1 px-4 leading-8">
+        {{ selectedOption?.label }}
       </div>
       <div class="flex items-center px-4">
         <div class="arrow-down my-auto transition-transform"
@@ -26,10 +27,12 @@
           class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
           role="listbox"
       >
-        <li v-for="option of options"
+        <li v-for="(option, i) of options"
             :key="option.value"
             role="option"
-            class="px-4 py-1 hover:bg-gray-50"
+            class="px-4 h-9 leading-9"
+            :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
+            @click="select(option)"
         >
           {{ option.label }}
         </li>
@@ -72,7 +75,7 @@ export default defineComponent({
     options: {
       type: Array as PropType<SelectOption[]>,
       // default: () => []
-      default: () => [{ label: 'Option 1', value: 1 }]
+      default: () => [{ label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 }, { label: 'Option 3', value: 3 }]
     },
     modelValue: {
       type: String,
@@ -82,7 +85,9 @@ export default defineComponent({
   emits: ['update:modelValue'],
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      focusedIndex: -1,
+      selectedOption: null as SelectOption
     }
   },
   methods: {
@@ -98,6 +103,33 @@ export default defineComponent({
     },
     close() {
       this.isOpen = false
+      this.focusedIndex = -1
+    },
+    onKeydown(e: KeyboardEvent) {
+      switch (e.code) {
+        case 'Enter':
+        case 'Space':
+          if (this.isOpen && this.focusedIndex >= 0) {
+            this.select(this.options[this.focusedIndex])
+          } else {
+            this.open()
+          }
+          break
+        case 'Escape':
+          this.close()
+          break
+        case 'ArrowDown':
+          this.focusedIndex = this.focusedIndex < this.options.length - 1 ? this.focusedIndex + 1 : this.focusedIndex
+          break
+        case 'ArrowUp':
+          this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : this.focusedIndex
+          break
+      }
+    },
+    select(option: SelectOption) {
+      this.$emit('update:modelValue', option.value)
+      this.selectedOption = option
+      this.close()
     }
   }
 })

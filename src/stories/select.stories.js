@@ -14,10 +14,15 @@ export default {
 
 const Template = (args) => ({
   components: { Select },
+  data() {
+    return {
+      data: null
+    }
+  },
   setup() {
     return { args }
   },
-  template: '<div style="max-width: 320px"><Select v-bind="args" /></div>'
+  template: '<div style="max-width: 320px"><Select v-bind="args" v-model="data" /></div>'
 })
 
 export const Label = Template.bind({})
