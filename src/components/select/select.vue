@@ -7,13 +7,14 @@
     </label>
 
     <div v-click-away="close"
-         class="w-full flex relative cursor-pointer outline-none rounded-full border border-gray-200 focus:border-gray-300 transition h-9"
+         class="w-full flex relative outline-none rounded-full border border-gray-200 focus:border-gray-300 transition h-9"
+         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer']"
          tabindex="0"
          @blur="close"
-         @click="toggle"
-         @keydown="onKeydown"
+         @click="!disabled && toggle($event)"
+         @keydown="!disabled && onKeydown($event)"
     >
-      <div class="flex-1 px-4 leading-9"
+      <div class="flex-1 px-4 leading-9 truncate"
            :aria-expanded="isOpen"
            aria-haspopup="listbox"
            role="combobox"
@@ -38,12 +39,11 @@
             id="listbox"
             class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
             role="listbox"
-            tabindex="-1"
         >
           <li v-for="(option, i) of options"
               :key="option.value"
               role="option"
-              class="px-4 h-9 leading-9"
+              class="px-4 h-9 leading-9 truncate"
               :aria-selected="modelValue === option.value"
               :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
               @click="select(option, $event)"
@@ -89,8 +89,7 @@ export default defineComponent({
     },
     options: {
       type: Array as PropType<SelectOption[]>,
-      // default: () => []
-      default: () => [{ label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 }, { label: 'Option 3', value: 3 }]
+      default: () => []
     },
     modelValue: {
       type: [String, Number],
@@ -107,6 +106,7 @@ export default defineComponent({
   },
   methods: {
     toggle() {
+      debugger
       if (this.isOpen) {
         this.close()
       } else {

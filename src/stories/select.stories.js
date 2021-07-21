@@ -30,6 +30,12 @@ Label.args = {
   label: 'Name'
 }
 
+export const Disabled = Template.bind({})
+Disabled.args = {
+  label: 'Name',
+  disabled: true
+}
+
 export const Error = Template.bind({})
 Error.args = {
   error: 'Invalid value'
