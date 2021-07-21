@@ -8,13 +8,18 @@
 
     <div v-click-away="close"
          class="w-full flex relative cursor-pointer outline-none rounded-full border border-gray-200 focus:border-gray-300 transition h-9"
-         aria-labelledby="label"
          tabindex="0"
          @blur="close"
          @click="toggle"
          @keydown="onKeydown"
     >
-      <div class="flex-1 px-4 leading-9">
+      <div class="flex-1 px-4 leading-9"
+           :aria-expanded="isOpen"
+           aria-haspopup="listbox"
+           role="combobox"
+           aria-labelledby="label"
+           aria-controls="listbox"
+      >
         {{ selectedOption && selectedOption.label }}
       </div>
       <div class="flex items-center px-4">
@@ -30,16 +35,18 @@
                   leave-to-class="opacity-0 -translate-y-4"
       >
         <ul v-if="isOpen"
-            :aria-expanded="isOpen"
+            id="listbox"
             class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
             role="listbox"
+            tabindex="-1"
         >
           <li v-for="(option, i) of options"
               :key="option.value"
               role="option"
               class="px-4 h-9 leading-9"
+              :aria-selected="modelValue === option.value"
               :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
-              @click="select(option)"
+              @click="select(option, $event)"
           >
             {{ option.label }}
           </li>
@@ -86,7 +93,7 @@ export default defineComponent({
       default: () => [{ label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 }, { label: 'Option 3', value: 3 }]
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: null
     }
   },
@@ -127,17 +134,21 @@ export default defineComponent({
           this.close()
           break
         case 'ArrowDown':
-          this.focusedIndex = this.focusedIndex < this.options.length - 1 ? this.focusedIndex + 1 : this.focusedIndex
+          this.focusedIndex = this.focusedIndex < this.options.length - 1 ? this.focusedIndex + 1 : 0
           break
         case 'ArrowUp':
-          this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : this.focusedIndex
+          this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : this.options.length - 1
           break
       }
     },
-    select(option: SelectOption) {
+    select(option: SelectOption, e?: Event) {
       this.$emit('update:modelValue', option.value)
       this.selectedOption = option
       this.close()
+
+      if (e) {
+        e.stopPropagation()
+      }
     }
   }
 })
