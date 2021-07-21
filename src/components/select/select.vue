@@ -7,8 +7,8 @@
     </label>
 
     <div v-click-away="close"
-         class="w-full flex relative outline-none rounded-full border border-gray-200 focus:border-gray-300 transition h-9"
-         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer']"
+         class="w-full flex relative outline-none rounded-full border transition h-9"
+         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-200 focus:border-gray-300']"
          tabindex="0"
          @blur="close"
          @click="!disabled && toggle($event)"
@@ -37,7 +37,7 @@
       >
         <ul v-if="isOpen"
             id="listbox"
-            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden"
+            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white"
             role="listbox"
         >
           <li v-for="(option, i) of options"
@@ -53,6 +53,19 @@
         </ul>
       </transition>
     </div>
+    <transition enter-active-class="transition duration-150"
+                enter-from-class="transform -translate-y-full opacity-0"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition duration-150"
+                leave-from-class="opacity-100 transform translate-y-0"
+                leave-to-class="opacity-0 -translate-y-full"
+    >
+      <div v-if="errorMessage"
+           class="text-xs text-red px-4 truncate"
+      >
+        {{ errorMessage }}
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -101,12 +114,22 @@ export default defineComponent({
     return {
       isOpen: false,
       focusedIndex: -1,
-      selectedOption: null as SelectOption
+      selectedOption: null as SelectOption,
+      errorMessage: null
+    }
+  },
+  watch: {
+    error: {
+      handler(value) {
+        this.$nextTick(() => {
+          this.errorMessage = value
+        })
+      },
+      immediate: true
     }
   },
   methods: {
     toggle() {
-      debugger
       if (this.isOpen) {
         this.close()
       } else {
