@@ -24,7 +24,7 @@
 
       </div>
     </div>
-    <span>
+    <span @click="toggleValue">
       {{ label }}
     </span>
   </label>
