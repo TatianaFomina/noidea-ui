@@ -4,7 +4,8 @@ export default {
   title: 'Components/Checkbox',
   component: Checkbox,
   argTypes: {
-    label: { control: { type: 'text' }, defaultValue: 'Check me' }
+    label: { control: { type: 'text' }, defaultValue: 'Check me' },
+    disabled: { control: { type: 'boolean' }, defaultValue: false }
   }
 }
 
@@ -22,3 +23,8 @@ const Template = (args) => ({
 })
 
 export const Default = Template.bind({})
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true
+}

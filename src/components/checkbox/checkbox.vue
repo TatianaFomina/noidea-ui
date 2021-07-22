@@ -1,14 +1,19 @@
 <template>
-  <label class="text-sm space-x-3 text-gray-500 font-medium flex items-center">
-    <div class="relative cursor-pointer w-4 h-4 focus-within:ring ring-blue-50 rounded-sm bg-gray-50">
+  <label class="text-sm space-x-3 font-medium flex items-center"
+         :class="[disabled ? 'text-gray-300' : 'text-gray-500']"
+  >
+    <div class="relative w-4 h-4 focus-within:ring ring-blue-50 rounded-sm bg-gray-50"
+         :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+    >
       <input type="checkbox"
              name=""
              class="absolute inset-0 opacity-0 outline-none"
+             :disabled="disabled"
              @keydown.space="toggleValue"
       >
       <div class="absolute inset-0 border border-gray-300 rounded-sm transition-colors outline-none"
 
-           :class="[modelValue && 'bg-blue-400']"
+           :class="[!disabled && modelValue && 'bg-blue-400', disabled && modelValue && 'bg-blue-100']"
            @click="toggleValue"
       >
 
@@ -47,11 +52,18 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
   methods: {
     toggleValue() {
+      if (this.disabled) {
+        return
+      }
       if (this.modelValue) {
         this.$emit('update:modelValue', false)
       } else {
