@@ -4,9 +4,8 @@ export default {
   title: 'Components/Input',
   component: Input,
   argTypes: {
-    size: { control: { type: 'select', options: ['sm', 'md', 'lg']}},
     type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'email']},
-    label: { control: 'text' },
+    label: { control: 'text', defaultValue: 'Name' },
     disabled: { control: 'boolean' },
     placeholder: { control: 'text' },
     error: { control: 'text' },
@@ -25,12 +24,6 @@ const Template = (args) => ({
 })
 
 export const Default = Template.bind({})
-Default.args = {}
-
-export const Label = Template.bind({})
-Label.args = {
-  label: 'Name'
-}
 
 export const Prefixed = Template.bind({})
 Prefixed.args = {
@@ -49,5 +42,6 @@ Error.args = {
 
 export const Password = Template.bind({})
 Password.args = {
-  type: 'password'
+  type: 'password',
+  label: 'Password'
 }
