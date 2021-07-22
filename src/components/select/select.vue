@@ -61,7 +61,7 @@
                 leave-to-class="opacity-0 -translate-y-full"
     >
       <div v-if="errorMessage"
-           class="text-xs text-red px-4 truncate"
+           class="text-xs text-red px-4 truncate font-medium"
       >
         {{ errorMessage }}
       </div>

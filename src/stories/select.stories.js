@@ -4,35 +4,39 @@ export default {
   title: 'Components/Select',
   component: Select,
   argTypes: {
-    label: { control: 'text' },
-    disabled: { control: 'boolean' },
+    label: { control: 'text', defaultValue: 'City' },
+    disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text' },
-    error: { control: 'text' }
+    error: { control: 'text' },
+    options: {
+      control: 'object',
+      defaultValue: [
+        { label: 'Saint Petersburg', value: 1 },
+        { label: 'Moscow', value: 2 },
+        { label: 'Yekaterinburg', value: 3 }
+      ]
+    }
   }
 
 }
 
 const Template = (args) => ({
   components: { Select },
-  data() {
-    return {
-      data: null
-    }
-  },
   setup() {
     return { args }
   },
-  template: '<div style="max-width: 320px"><Select v-bind="args" v-model="data" /></div>'
+  data() {
+    return {
+      selectedValue: null
+    }
+  },
+  template: '<div style="max-width: 320px"><Select v-bind="args" v-model="selectedValue"/></div>'
 })
 
-export const Label = Template.bind({})
-Label.args = {
-  label: 'Name'
-}
+export const Default = Template.bind({})
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  label: 'Name',
   disabled: true
 }
 
