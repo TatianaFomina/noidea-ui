@@ -1,23 +1,29 @@
 <template>
   <div class="text-gray-500 text-sm space-y-0.5">
-    <label id="label"
-           class="text-xs px-4 font-medium"
-    >
-      {{ label }}
-    </label>
+    <div class="flex px-4 text-xs font-medium ">
+      <label class="truncate"
+             for="input"
+      >
+        {{ label }}
+      </label>
+      <span>
+        {{ required ? '&nbsp;*' : '' }}
+      </span>
+    </div>
 
     <div v-click-away="close"
          class="w-full flex relative outline-none rounded-full border transition h-9"
          :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-200 focus:border-gray-300']"
          tabindex="0"
          @blur="close"
-         @click="!disabled && toggle($event)"
+         @click="!disabled && toggle()"
          @keydown="!disabled && onKeydown($event)"
     >
       <div class="flex-1 px-4 leading-9 truncate"
            :aria-expanded="isOpen"
            aria-haspopup="listbox"
            role="combobox"
+           :aria-required="required"
            aria-labelledby="label"
            aria-controls="listbox"
       >
@@ -106,6 +112,14 @@ export default defineComponent({
     },
     modelValue: {
       type: [String, Number],
+      default: null
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
       default: null
     }
   },

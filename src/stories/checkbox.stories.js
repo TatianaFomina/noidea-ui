@@ -5,7 +5,8 @@ export default {
   component: Checkbox,
   argTypes: {
     label: { control: { type: 'text' }, defaultValue: 'Check me' },
-    disabled: { control: { type: 'boolean' }, defaultValue: false }
+    disabled: { control: { type: 'boolean' }, defaultValue: false },
+    required: { control: { type: 'boolean' }, defaultValue: false }
   }
 }
 

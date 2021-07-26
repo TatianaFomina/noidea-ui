@@ -1,8 +1,15 @@
 <template>
   <div class="text-gray-500 text-sm space-y-0.5">
-    <label class="text-xs px-4 font-medium"
-           for="input"
-    >{{ label }}</label>
+    <div class="flex px-4 text-xs font-medium ">
+      <label class="truncate"
+             for="input"
+      >
+        {{ label }}
+      </label>
+      <span>
+        {{ required ? '&nbsp;*' : '' }}
+      </span>
+    </div>
     <div class="flex">
       <div v-if="$slots.prefix"
            class="border rounded-l-full pl-4 pr-3 text-gray-400 font-medium leading-[20px] flex items-center"
@@ -16,6 +23,8 @@
              :type="proxyType"
              :placeholder="placeholder"
              :disabled="disabled"
+             :required="required"
+             :name="name"
              @input="handleInput"
       >
       <button v-if="isPassword"
@@ -90,6 +99,14 @@ export default defineComponent({
     label: {
       type: String,
       default: ''
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
+      default: null
     }
   },
   emits: ['update:modelValue'],

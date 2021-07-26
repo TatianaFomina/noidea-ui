@@ -6,9 +6,10 @@
          :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
     >
       <input type="checkbox"
-             name=""
              class="absolute inset-0 opacity-0 outline-none"
              :disabled="disabled"
+             :required="required"
+             :name="name"
              @keydown.space="toggleValue"
       >
       <div class="absolute inset-0 border border-gray-300 rounded-sm transition-colors outline-none"
@@ -30,7 +31,7 @@
       </div>
     </div>
     <span @click="toggleValue">
-      {{ label }}
+      {{ label }} <template v-if="required">{{ '*' }}</template>
     </span>
   </label>
 </template>
@@ -56,6 +57,14 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
+      default: null
     }
   },
   emits: ['update:modelValue'],
