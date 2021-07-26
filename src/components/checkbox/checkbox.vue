@@ -13,7 +13,6 @@
              @keydown.space="toggleValue"
       >
       <div class="absolute inset-0 border border-gray-300 rounded-sm transition-colors outline-none"
-
            :class="[!disabled && modelValue && 'bg-blue-400', disabled && modelValue && 'bg-blue-100']"
            @click="toggleValue"
       >
