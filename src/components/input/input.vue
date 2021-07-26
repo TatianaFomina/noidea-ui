@@ -1,6 +1,8 @@
 <template>
   <div class="text-gray-500 text-sm space-y-0.5">
-    <div class="flex px-4 text-xs font-medium ">
+    <div v-if="label"
+         class="flex px-4 text-xs font-medium "
+    >
       <label class="truncate"
              for="input"
       >
