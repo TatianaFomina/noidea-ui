@@ -14,8 +14,8 @@
     </div>
 
     <div v-click-away="close"
-         class="w-full flex relative outline-none rounded-full border transition h-9"
-         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-200 focus:border-gray-300']"
+         class="w-full flex relative outline-none rounded-full border transition h-9 focus:ring"
+         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
          tabindex="0"
          @blur="close"
          @click="!disabled && toggle()"
