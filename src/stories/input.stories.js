@@ -4,13 +4,11 @@ export default {
   title: 'Components/Input',
   component: Input,
   argTypes: {
-    type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'email']},
+    type: { control: { type: 'select' }, options: ['text', 'number', 'password'], defaultValue: 'text' },
     label: { control: 'text', defaultValue: 'Name' },
-    disabled: { control: 'boolean' },
+    disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text' },
-    error: { control: 'text' },
-    prefix: { control: 'text' },
-    suffix: { control: 'text' }
+    error: { control: 'text' }
   }
 
 }
@@ -20,20 +18,10 @@ const Template = (args) => ({
   setup() {
     return { args }
   },
-  template: '<div style="max-width: 320px"><Input v-bind="args"> <template v-if="args.prefix" #prefix> {{ args.prefix }} </template>  <template v-if="args.suffix" #suffix> {{ args.suffix }} </template></Input></div>'
+  template: '<div style="max-width: 320px"><Input v-bind="args" /> </div>'
 })
 
 export const Default = Template.bind({})
-
-export const Prefixed = Template.bind({})
-Prefixed.args = {
-  prefix: 'test'
-}
-
-export const Suffixed = Template.bind({})
-Suffixed.args = {
-  suffix: 'test'
-}
 
 export const Error = Template.bind({})
 Error.args = {

@@ -12,16 +12,11 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <div class="flex">
-      <div v-if="$slots.prefix"
-           class="border rounded-l-full pl-4 pr-3 text-gray-400 font-medium leading-[20px] flex items-center"
-           :class="[error ? 'border-red' : 'border-gray-300']"
-      >
-        <slot name="prefix" />
-      </div>
+    <div class="flex rounded-full border transition overflow-hidden focus-within:ring"
+         :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
+    >
       <input id="input"
-             class="border-t border-b h-9 focus:outline-none px-4 rounded-full transition disabled:cursor-not-allowed flex-1 placeholder-gray-300"
-             :class="[$slots.prefix ? 'rounded-l-none' : 'border-l', $slots.suffix || isPassword ? 'rounded-r-none' : 'border-r', error ? 'border-red border-opacity-30 focus:border-opacity-100' : 'border-gray-200 focus:border-gray-300']"
+             class="h-9 focus:outline-none px-4 disabled:cursor-not-allowed flex-1 placeholder-gray-300 disabled:bg-gray-50"
              :type="proxyType"
              :placeholder="placeholder"
              :disabled="disabled"
@@ -31,8 +26,8 @@
       >
       <button v-if="isPassword"
               aria-label="Toggle password visibility"
-              class="border rounded-r-full pr-4 pl-3 text-gray-400 hover:text-gray-300 font-medium leading-[20px] flex items-center focus:outline-none focus:ring ring-gray-50"
-              :class="[error ? 'border-red' : 'border-gray-300']"
+              class=" pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
+              :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:text-gray-300']"
               @click="togglePasswordVisibility"
       >
         <EyeIcon v-if="proxyType === 'password'"
@@ -42,13 +37,6 @@
                     class="w-4 h-4"
         />
       </button>
-
-      <div v-if="$slots.suffix"
-           class="border rounded-r-full pr-4 pl-3 text-gray-400 font-medium leading-[20px] flex items-center"
-           :class="[error ? 'border-red' : 'border-gray-300']"
-      >
-        <slot name="suffix" />
-      </div>
     </div>
     <transition enter-active-class="transition duration-150"
                 enter-from-class="transform -translate-y-full opacity-0"
