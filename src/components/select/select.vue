@@ -21,7 +21,7 @@
          @click="!disabled && toggle()"
          @keydown="!disabled && onKeydown($event)"
     >
-      <div class="flex-1 px-4 leading-9 truncate"
+      <div class="flex-1 px-4 leading-[34px] truncate"
            :aria-expanded="isOpen"
            aria-haspopup="listbox"
            role="combobox"
@@ -29,7 +29,14 @@
            aria-labelledby="label"
            aria-controls="listbox"
       >
-        {{ selectedOption && selectedOption.label }}
+        <span v-if="!selectedOption"
+              class="text-gray-300"
+        >
+          {{ placeholder }}
+        </span>
+        <span v-else>
+          {{ selectedOption && selectedOption.label }}
+        </span>
       </div>
       <div class="flex items-center px-4">
         <div class="arrow-down my-auto transition-transform"

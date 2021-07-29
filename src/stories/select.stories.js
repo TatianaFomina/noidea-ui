@@ -6,7 +6,7 @@ export default {
   argTypes: {
     label: { control: 'text', defaultValue: 'City' },
     disabled: { control: 'boolean', defaultValue: false },
-    placeholder: { control: 'text' },
+    placeholder: { control: 'text', defaultValue: 'Select a value' },
     error: { control: 'text' },
     options: {
       control: 'object',
