@@ -1,6 +1,6 @@
 <template>
   <button :class="[classNames, rounded ? 'rounded-full' : 'rounded-md']"
-          class="uppercase font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors relative"
+          class="uppercase py-1 font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors relative"
           :disabled="disabled"
   >
     <div :class="[loading && 'opacity-0']">
@@ -11,8 +11,8 @@
          class="absolute inset-0 flex justify-center items-center"
     >
       <Spinner
-        size="sm"
-        class="text-white"
+        :size="size"
+        :class="spinnerClassNames"
       />
     </div>
   </button>
@@ -30,6 +30,17 @@ const classes = {
   border: {
     primary: 'text-blue-300 border-2 border-blue-300 hover:text-white hover:bg-blue-300 disabled:bg-blue-50 disabled:text-blue-100 disabled:border-transparent ring-blue-50',
     accent: 'text-pink-300 border-2 border-pink-300 hover:text-white hover:bg-pink-300 disabled:bg-pink-50 disabled:text-pink-100 disabled:border-transparent ring-pink-50'
+  }
+}
+
+const spinnerClasses = {
+  solid: {
+    primary: '!text-white',
+    accent: '!text-white'
+  },
+  border: {
+    primary: '!text-blue-300',
+    accent: '!text-pink-300'
   }
 }
 
@@ -82,6 +93,9 @@ export default defineComponent({
   computed: {
     classNames() {
       return classes[this.look][this.color] + ' ' + sizes[this.size]
+    },
+    spinnerClassNames() {
+      return spinnerClasses[this.look][this.color]
     }
   }
 })

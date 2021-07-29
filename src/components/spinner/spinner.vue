@@ -1,22 +1,17 @@
 <template>
-  <svg
-    class="progress-ring text-sky-100 animate-spin"
-    :width="width"
-    :height="width"
+  <svg :width="width"
+       :height="width"
+       class="text-sky-100 animate-spin"
   >
-    <circle
-      id="shape"
-      class="progress-ring__circle text-sky-100"
-      stroke="currentColor"
-      stroke-linecap="round"
-      :style="`transition: all ${duration / 1000}s ease-in-out;`"
-      :stroke-width="strokeWidth"
-      fill="transparent"
-      :stroke-dasharray="`${circumference} ${circumference}`"
-      :stroke-dashoffset="`${circumference}`"
-      :r="radius"
-      :cx="centerOffset"
-      :cy="centerOffset"
+    <circle id="circle"
+            stroke-linecap="round"
+            fill="transparent"
+            stroke="currentColor"
+            :r="radius"
+            :cx="centerOffset"
+            :cy="centerOffset"
+            :stroke-width="strokeWidth"
+            pathLength="100"
     />
   </svg>
 </template>
@@ -26,15 +21,15 @@ import { defineComponent } from 'vue'
 
 const sizes = {
   sm: {
-    width: 16,
-    strokeWidth: 2
+    width: 18,
+    strokeWidth: 3
   },
   md: {
     width: 24,
-    strokeWidth: 2
+    strokeWidth: 4
   },
   lg: {
-    width: 48,
+    width: 30,
     strokeWidth: 4
   }
 }
@@ -50,13 +45,6 @@ export default defineComponent({
       }
     }
   },
-  data() {
-    return {
-      duration: 1000,
-      percent: 0,
-      interval: null
-    }
-  },
   computed: {
     width(): number {
       return sizes[this.size]?.width || sizes.md.width
@@ -64,39 +52,43 @@ export default defineComponent({
     strokeWidth(): number {
       return sizes[this.size].strokeWidth || sizes.md.strokeWidth
     },
-    centerOffset(): number {
+    centerOffset() {
       return this.width / 2
     },
     radius(): number {
       return this.centerOffset - this.strokeWidth / 2
     },
-    offset(): number {
-      return this.circumference - this.percent / 100 * this.circumference
-    },
     circumference(): number {
       return this.radius * 2 * Math.PI
     }
-  },
-  mounted() {
-    this.animate()
-  },
-  unmounted() {
-    clearInterval(this.interval)
-  },
-  methods: {
-    animate() {
-      const shape = document.getElementById('shape')
-
-      this.interval = setInterval(() => {
-        if (this.percent === 100) {
-          this.percent = 0
-        } else {
-          this.percent = 100
-        }
-
-        shape.setAttribute('stroke-dashoffset', this.offset)
-      }, this.duration)
-    }
   }
 })
+
 </script>
+
+<style scoped>
+
+  #circle {
+    stroke-dasharray: 100;
+    transform-origin: center;
+    animation: dash 1.4s ease-in-out infinite;
+  }
+  @keyframes dash {
+    0%,
+    25% {
+      stroke-dashoffset: 96;
+      transform: rotate(0);
+    }
+
+    50%,
+    75% {
+      stroke-dashoffset: 26;
+      transform: rotate(45deg);
+    }
+
+    100% {
+      stroke-dashoffset: 96;
+      transform: rotate(360deg);
+    }
+  }
+</style>

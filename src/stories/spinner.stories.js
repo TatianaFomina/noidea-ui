@@ -4,7 +4,7 @@ export default {
   title: 'Components/Spinner',
   component: Spinner,
   argTypes: {
-    size: { control: { type: 'select', options: ['sm', 'md', 'lg']}}
+    size: { control: { type: 'select', options: ['sm', 'md', 'lg']}, defaultValue: 'sm' }
   }
 
 }

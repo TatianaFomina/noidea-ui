@@ -7,6 +7,8 @@ export default {
     color: { control: { type: 'select', options: ['primary', 'accent']}, defaultValue: 'primary' },
     look: { control: { type: 'select', options: ['solid', 'border']}, defaultValue: 'solid' },
     size: { control: { type: 'select', options: ['sm', 'md', 'lg']}, defaultValue: 'md' },
+    loading: { control: { type: 'boolean' }, defaultValue: false },
+    disabled: { control: { type: 'boolean' }, defaultValue: false },
     default: {
       control: 'text',
       description: 'Slot content',
