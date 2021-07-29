@@ -4,12 +4,13 @@ export default {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    color: { control: { type: 'select', options: ['primary', 'accent']}},
-    look: { control: { type: 'select', options: ['solid', 'border']}},
+    color: { control: { type: 'select', options: ['primary', 'accent']}, defaultValue: 'primary' },
+    look: { control: { type: 'select', options: ['solid', 'border']}, defaultValue: 'solid' },
+    size: { control: { type: 'select', options: ['sm', 'md', 'lg']}, defaultValue: 'md' },
     default: {
       control: 'text',
       description: 'Slot content',
-      defaultValue: 'Test'
+      defaultValue: 'Button'
     }
   }
 }
@@ -40,4 +41,9 @@ Border.args = {
 export const Rounded = Template.bind({})
 Rounded.args = {
   rounded: 'true'
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  loading: 'true'
 }

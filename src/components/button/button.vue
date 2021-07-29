@@ -1,14 +1,26 @@
 <template>
   <button :class="[classNames, rounded ? 'rounded-full' : 'rounded-md']"
-          class="px-12 py-2 uppercase text-sm font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors"
+          class="uppercase font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors relative"
           :disabled="disabled"
   >
-    <slot />
+    <div :class="[loading && 'opacity-0']">
+      <slot />
+    </div>
+
+    <div v-if="loading"
+         class="absolute inset-0 flex justify-center items-center"
+    >
+      <Spinner
+        size="sm"
+        class="text-white"
+      />
+    </div>
   </button>
 </template>
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
+import Spinner from '../spinner/spinner.vue'
 
 const classes = {
   solid: {
@@ -21,8 +33,17 @@ const classes = {
   }
 }
 
+const sizes = {
+  sm: 'px-4 h-7 text-xs',
+  md: 'px-6 h-9 text-sm',
+  lg: 'px-12 h-11 text-sm'
+}
+
 export default defineComponent({
   name: 'Button',
+  components: {
+    Spinner
+  },
   props: {
     rounded: {
       type: Boolean,
@@ -31,25 +52,36 @@ export default defineComponent({
     look: {
       type: String,
       default: 'solid',
-      validator(value: string) {
+      validator(value: string): boolean {
         return ['solid', 'border'].includes(value)
       }
     },
     color: {
       type: String,
       default: 'primary',
-      validator(value: string) {
+      validator(value: string): boolean {
         return ['primary', 'accent'].includes(value)
       }
     },
     disabled: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: String,
+      default: 'md',
+      validator(value: string): boolean {
+        return ['sm', 'md', 'lg'].includes(value)
+      }
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     classNames() {
-      return classes[this.look][this.color]
+      return classes[this.look][this.color] + ' ' + sizes[this.size]
     }
   }
 })
