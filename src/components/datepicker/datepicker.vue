@@ -3,7 +3,7 @@
     <Input v-model="proxyModelValue"
            :label="label "
     />
-    <button @click="toggle">
+    <button @click="open">
       <CalendarIcon class="w-4 h-4 text-gray-400" />
     </button>
 
@@ -15,6 +15,7 @@
                 leave-to-class="opacity-0 -translate-y-4"
     >
       <div v-if="isExpanded"
+           v-click-away="close"
            class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 overflow-hidden bg-white text-gray-500 space-y-2 shadow-sm"
       >
         <div class="flex justify-between px-2">
@@ -41,12 +42,15 @@
           </div>
         </div>
         <div class="grid grid-cols-7 grid-rows-6 gap-1 justify-items-center text-sm px-2">
-          <div v-for="(day, i) in daysOfPrevMonthCount"
-               :key="day"
-               class="text-gray-200 w-7 h-7 leading-7 text-center"
+          <button v-for="(day, i) in daysOfPrevMonthCount"
+                  :key="day"
+                  class="text-gray-200 w-7 h-7 leading-7 text-center"
+                  @click="selectValuePrevMonth(day)"
           >
-            {{ firstDayOfPrevMonthDisplayed + i }}
-          </div>
+            <p class="rounded-full hover:bg-gray-50">
+              {{ firstDayOfPrevMonthDisplayed + i }}
+            </p>
+          </button>
           <button v-for="day in daysInMonth"
                   :key="day"
                   class="w-7 h-7 leading-7 text-center"
@@ -58,12 +62,15 @@
               {{ day }}
             </p>
           </button>
-          <div v-for="day in daysOfNextMonthCount"
-               :key="day"
-               class="text-gray-200 w-7 h-7 leading-7 text-center"
+          <button v-for="day in daysOfNextMonthCount"
+                  :key="day"
+                  class="text-gray-200 w-7 h-7 leading-7 text-center"
+                  @click="selectValueNextMonth(day)"
           >
-            {{ day }}
-          </div>
+            <p class="rounded-full hover:bg-gray-50">
+              {{ day }}
+            </p>
+          </button>
         </div>
       </div>
     </transition>
@@ -78,12 +85,21 @@ import ChevronLeftIcon from './components/chevron-left-icon.vue'
 import ChevronRightIcon from './components/chevron-right-icon.vue'
 import * as dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+import { directive } from 'vue3-click-away'
 
 dayjs.extend(localizedFormat)
 
 export default defineComponent({
   name: 'Datepicker',
-  components: { Input, CalendarIcon, ChevronLeftIcon, ChevronRightIcon },
+  components: {
+    Input,
+    CalendarIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon
+  },
+  directives: {
+    ClickAway: directive
+  },
   props: {
     label: {
       type: String,
@@ -145,18 +161,26 @@ export default defineComponent({
     }
   },
   methods: {
-    toggle() {
-      if (this.isExpanded) {
-        this.isExpanded = false
-      } else {
-        this.open()
-      }
-    },
+    // toggle() {
+    //   if (this.isExpanded) {
+    //     this.isExpanded = false
+    //   } else {
+    //     this.open()
+    //   }
+    // },
     isDateSelected(date: number): boolean {
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
     },
     selectValue(date: number) {
       this.$emit('update:modelValue', this.displayedDate.set('date', date))
+      this.isExpanded = false
+    },
+    selectValueNextMonth(date: number) {
+      this.$emit('update:modelValue', this.displayedDate.add(1, 'month').set('date', date))
+      this.isExpanded = false
+    },
+    selectValuePrevMonth(date: number) {
+      this.$emit('update:modelValue', this.displayedDate.subtract(1, 'month').set('date', date))
       this.isExpanded = false
     },
     showPrevMonth() {
@@ -168,6 +192,9 @@ export default defineComponent({
     open() {
       this.displayedDate = dayjs(this.modelValue)
       this.isExpanded = true
+    },
+    close() {
+      this.isExpanded = false
     }
   }
 })
