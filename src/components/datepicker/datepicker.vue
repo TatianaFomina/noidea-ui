@@ -18,13 +18,17 @@
            class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 overflow-hidden bg-white text-gray-500 space-y-2 shadow-sm"
       >
         <div class="flex justify-between px-2">
-          <button class="text-gray-400 hover:text-gray-300">
+          <button class="text-gray-400 hover:text-gray-300"
+                  @click="showPrevMonth"
+          >
             <ChevronLeftIcon class="w-4 h-4" />
           </button>
           <p>
             {{ currentMonth }} {{ currentYear }}
           </p>
-          <button class="text-gray-400 hover:text-gray-300">
+          <button class="text-gray-400 hover:text-gray-300"
+                  @click="showNextMonth"
+          >
             <ChevronRightIcon class="w-4 h-4" />
           </button>
         </div>
@@ -36,12 +40,12 @@
             {{ weekDayName }}
           </div>
         </div>
-        <div class="grid grid-cols-7 grid-rows-5 gap-1 justify-items-center text-sm px-2">
-          <div v-for="day in daysOfPrevMonthCount"
+        <div class="grid grid-cols-7 grid-rows-6 gap-1 justify-items-center text-sm px-2">
+          <div v-for="(day, i) in daysOfPrevMonthCount"
                :key="day"
                class="text-gray-200 w-7 h-7 leading-7 text-center"
           >
-            {{ day }}
+            {{ firstDayOfPrevMonthDisplayed + i }}
           </div>
           <button v-for="day in daysInMonth"
                   :key="day"
@@ -49,7 +53,7 @@
                   @click="selectValue(day)"
           >
             <p class="rounded-full"
-               :class="[isDaySelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50']"
+               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50']"
             >
               {{ day }}
             </p>
@@ -104,21 +108,21 @@ export default defineComponent({
     return {
       isExpanded: false,
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      currentDate: dayjs(this.modelValue)
+      displayedDate: dayjs(this.modelValue)
     }
   },
   computed: {
-    date() {
-      return dayjs(this.modelValue)
-    },
+    // date() {
+    //   return dayjs(this.modelValue)
+    // },
     daysInMonth() {
-      return this.date.daysInMonth()
+      return this.displayedDate.daysInMonth()
     },
     currentMonth() {
-      return this.date.format('MMMM')
+      return this.displayedDate.format('MMMM')
     },
     currentYear() {
-      return this.date.format('YYYY')
+      return this.displayedDate.format('YYYY')
     },
     proxyModelValue() {
       // if (value instanceof Date) {
@@ -129,10 +133,15 @@ export default defineComponent({
       // return value
     },
     daysOfPrevMonthCount() {
-      return this.date.startOf('month').day()
+      return this.displayedDate.startOf('month').day()
+    },
+    firstDayOfPrevMonthDisplayed() {
+      const daysInPrevMonth = this.displayedDate.subtract(1, 'month').daysInMonth()
+
+      return daysInPrevMonth - this.daysOfPrevMonthCount
     },
     daysOfNextMonthCount() {
-      return 35 - this.daysInMonth
+      return 42 - this.daysInMonth - this.daysOfPrevMonthCount
     }
   },
   methods: {
@@ -140,15 +149,25 @@ export default defineComponent({
       if (this.isExpanded) {
         this.isExpanded = false
       } else {
-        this.isExpanded = true
+        this.open()
       }
     },
-    isDaySelected(day): boolean {
-      return day === this.date.get('date')
+    isDateSelected(date: number): boolean {
+      return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
     },
     selectValue(date: number) {
-      this.$emit('update:modelValue', this.date.set('date', date))
+      this.$emit('update:modelValue', this.displayedDate.set('date', date))
       this.isExpanded = false
+    },
+    showPrevMonth() {
+      this.displayedDate = this.displayedDate.subtract(1, 'month')
+    },
+    showNextMonth() {
+      this.displayedDate = this.displayedDate.add(1, 'month')
+    },
+    open() {
+      this.displayedDate = dayjs(this.modelValue)
+      this.isExpanded = true
     }
   }
 })
