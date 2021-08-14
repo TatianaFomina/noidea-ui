@@ -22,11 +22,12 @@
              :disabled="disabled"
              :required="required"
              :name="name"
+             :value="modelValue"
              @input="handleInput"
       >
       <button v-if="isPassword"
               aria-label="Toggle password visibility"
-              class=" pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
+              class="pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
               :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:text-gray-300']"
               @click="togglePasswordVisibility"
       >

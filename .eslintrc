@@ -47,5 +47,6 @@
       "anonymous": "never",
       "named": "never"
     }],
+    "import/no-absolute-path": 0
   }
 }

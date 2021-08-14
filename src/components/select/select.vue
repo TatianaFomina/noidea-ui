@@ -52,7 +52,7 @@
       >
         <ul v-if="isOpen"
             id="listbox"
-            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white"
+            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm"
             role="listbox"
         >
           <li v-for="(option, i) of options"
