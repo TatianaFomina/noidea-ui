@@ -16,7 +16,7 @@
     >
       <div v-if="isExpanded"
            v-click-away="close"
-           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 overflow-hidden bg-white text-gray-500 space-y-2 shadow-sm"
+           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm"
       >
         <div class="flex justify-between px-2">
           <button class="text-gray-400 hover:text-gray-300"
@@ -28,10 +28,12 @@
             {{ currentMonth }} {{ currentYear }}
           </p> -->
           <div class="flex">
-            <Popover>
+            <Popover on="click">
               <p>{{ currentMonth }}</p>
               <template #popover>
                 popover
+                jhgjhfjf
+                gjhghfggf
               </template>
             </Popover>
             <p>{{ currentYear }}</p>

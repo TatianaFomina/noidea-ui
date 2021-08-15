@@ -1,6 +1,7 @@
 <template>
   <div v-click-away="onClickAway"
        class="relative"
+       :class="[on === 'click' && 'cursor-pointer']"
        @click="on === 'click' && toggle()"
        @mouseover="on === 'hover' && show()"
        @mouseleave="on === 'hover' && hide()"
@@ -15,9 +16,12 @@
                 leave-to-class="opacity-0 scale-75"
     >
       <div v-if="visible"
-           class="absolute -left-1/2 top-[110%] flex flex-col items-center"
+           class="absolute flex items-center"
+           :class="positionClasses"
       >
-        <div class="w-0 h-0 triangle-top" />
+        <div class="w-0 h-0"
+             :class="triangleRotation"
+        />
         <div class="bg-blue-50 rounded-md shadow-md py-1 px-4">
           <slot name="popover" />
         </div>
@@ -30,6 +34,20 @@
 import { defineComponent } from 'vue'
 import { directive } from 'vue3-click-away'
 
+const positions = {
+  bottom: '-left-1/2 top-[110%] flex-col',
+  right: 'my-auto left-[130%] flex-row inset-y-0',
+  left: 'my-auto right-[130%] flex-row-reverse inset-y-0',
+  top: '-left-1/2 bottom-[100%] flex-col-reverse'
+}
+
+const triangleRotations = {
+  bottom: 'triangle-bottom',
+  right: 'triangle-right',
+  left: 'triangle-left',
+  top: 'triangle-top'
+}
+
 export default defineComponent({
   name: 'Popover',
   directives: {
@@ -40,12 +58,12 @@ export default defineComponent({
       type: String,
       default: 'bottom',
       validator(value) {
-        return ['top', 'bottom', 'right', 'left', 'auto'].includes(value)
+        return ['top', 'bottom', 'right', 'left', 'auto'].includes(value) // TODO auto support
       }
     },
     on: {
       type: String,
-      default: 'click',
+      default: 'hover',
       validator(value) {
         return ['hover', 'click'].includes(value)
       }
@@ -63,10 +81,15 @@ export default defineComponent({
       visible: false
     }
   },
-  methods: {
-    handleEvent(event) {
-      console.log(event)
+  computed: {
+    positionClasses() {
+      return positions[this.position] || positions.bottom
     },
+    triangleRotation() {
+      return triangleRotations[this.position] || triangleRotations.bottom
+    }
+  },
+  methods: {
     show() {
       this.visible = true
     },
@@ -91,11 +114,27 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .triangle-top {
-    width: 0;
-    height: 0;
+  .triangle-bottom {
     border-left: 0.35rem solid transparent;
     border-right: 0.35rem solid transparent;
     border-bottom: 0.35rem solid #C9E3F2;
+  }
+
+  .triangle-top {
+    border-left: 0.35rem solid transparent;
+    border-right: 0.35rem solid transparent;
+    border-top: 0.35rem solid #C9E3F2;
+  }
+
+  .triangle-right {
+    border-top: 0.35rem solid transparent;
+    border-bottom: 0.35rem solid transparent;
+    border-right: 0.35rem solid #C9E3F2;
+  }
+
+  .triangle-left {
+    border-top: 0.35rem solid transparent;
+    border-bottom: 0.35rem solid transparent;
+    border-left: 0.35rem solid #C9E3F2;
   }
 </style>
