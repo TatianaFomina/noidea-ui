@@ -19,10 +19,19 @@
            class="absolute flex items-center"
            :class="positionClasses"
       >
-        <div class="w-0 h-0"
-             :class="triangleRotation"
-        />
-        <div class="bg-blue-50 rounded-md shadow-md py-1 px-4">
+        <div class="flex-shrink-0 w-2.5 h-2.5"
+             :class="[triangleRotation, triangleBackground]"
+        >
+          <svg viewBox="0 0 100 100">
+            <polygon points="50 25, 100 100, 0 100"
+                     fill="currentColor"
+            />
+          </svg>
+        </div>
+
+        <div class="rounded-md shadow-md py-1 px-4"
+             :class="bodyBackground"
+        >
           <slot name="popover" />
         </div>
       </div>
@@ -42,10 +51,20 @@ const positions = {
 }
 
 const triangleRotations = {
-  bottom: 'triangle-bottom',
-  right: 'triangle-right',
-  left: 'triangle-left',
-  top: 'triangle-top'
+  bottom: '',
+  right: 'transform -rotate-90',
+  left: 'transform rotate-90',
+  top: 'transform rotate-180'
+}
+
+const backgrounds = {
+  dark: 'bg-gray-500 text-white',
+  light: 'bg-blue-50'
+}
+
+const triangleBackgrounds = {
+  dark: 'text-gray-500',
+  light: 'text-blue-50'
 }
 
 export default defineComponent({
@@ -87,6 +106,12 @@ export default defineComponent({
     },
     triangleRotation() {
       return triangleRotations[this.position] || triangleRotations.bottom
+    },
+    bodyBackground() {
+      return backgrounds[this.mode] || backgrounds.light
+    },
+    triangleBackground() {
+      return triangleBackgrounds[this.mode] || triangleBackgrounds.light
     }
   },
   methods: {
@@ -112,29 +137,3 @@ export default defineComponent({
 })
 
 </script>
-
-<style scoped>
-  .triangle-bottom {
-    border-left: 0.35rem solid transparent;
-    border-right: 0.35rem solid transparent;
-    border-bottom: 0.35rem solid #C9E3F2;
-  }
-
-  .triangle-top {
-    border-left: 0.35rem solid transparent;
-    border-right: 0.35rem solid transparent;
-    border-top: 0.35rem solid #C9E3F2;
-  }
-
-  .triangle-right {
-    border-top: 0.35rem solid transparent;
-    border-bottom: 0.35rem solid transparent;
-    border-right: 0.35rem solid #C9E3F2;
-  }
-
-  .triangle-left {
-    border-top: 0.35rem solid transparent;
-    border-bottom: 0.35rem solid transparent;
-    border-left: 0.35rem solid #C9E3F2;
-  }
-</style>
