@@ -24,9 +24,18 @@
           >
             <ChevronLeftIcon class="w-4 h-4" />
           </button>
-          <p>
+          <!-- <p>
             {{ currentMonth }} {{ currentYear }}
-          </p>
+          </p> -->
+          <div class="flex">
+            <Popover>
+              <p>{{ currentMonth }}</p>
+              <template #popover>
+                popover
+              </template>
+            </Popover>
+            <p>{{ currentYear }}</p>
+          </div>
           <button class="text-gray-400 hover:text-gray-300"
                   @click="showNextMonth"
           >
@@ -83,6 +92,7 @@ import Input from '/~/components/input/input.vue'
 import CalendarIcon from './components/calendar-icon.vue'
 import ChevronLeftIcon from './components/chevron-left-icon.vue'
 import ChevronRightIcon from './components/chevron-right-icon.vue'
+import Popover from '/~/components/popover/popover.vue'
 import * as dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { directive } from 'vue3-click-away'
@@ -95,7 +105,8 @@ export default defineComponent({
     Input,
     CalendarIcon,
     ChevronLeftIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
+    Popover
   },
   directives: {
     ClickAway: directive
@@ -117,7 +128,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
-    // placeholder
   },
   emits: ['update:modelValue'],
   data() {
@@ -128,9 +138,6 @@ export default defineComponent({
     }
   },
   computed: {
-    // date() {
-    //   return dayjs(this.modelValue)
-    // },
     daysInMonth() {
       return this.displayedDate.daysInMonth()
     },
@@ -161,13 +168,6 @@ export default defineComponent({
     }
   },
   methods: {
-    // toggle() {
-    //   if (this.isExpanded) {
-    //     this.isExpanded = false
-    //   } else {
-    //     this.open()
-    //   }
-    // },
     isDateSelected(date: number): boolean {
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
     },
