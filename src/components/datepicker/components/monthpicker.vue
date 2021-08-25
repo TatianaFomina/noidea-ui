@@ -17,7 +17,7 @@
             <button class="font-medium text-sm rounded-full hover:bg-white hover:bg-opacity-20 px-2"
                     @click="yearSelectionMode = !yearSelectionMode"
             >
-              {{ year }}
+              {{ yearSelectionMode ? yearsSpan[0] + '-' + yearsSpan[11]: year }}
             </button>
             <button class="text-gray-400 rounded-full hover:bg-white hover:bg-opacity-20 p-0.5"
                     @click="next"
