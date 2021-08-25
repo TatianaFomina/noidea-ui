@@ -21,7 +21,6 @@
            tabindex="0"
            @keydown="onKeydown"
       >
-        {{ focusedDate }}
         <div class="flex justify-between px-2">
           <button class="text-gray-400 hover:text-gray-300"
                   @click="showPrevMonth"
@@ -63,7 +62,7 @@
                   @click="selectValue(day)"
           >
             <p class="rounded-full"
-               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50', isDateFocused(day) && 'bg-gray-50']"
+               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50']"
             >
               {{ day }}
             </p>
@@ -131,8 +130,7 @@ export default defineComponent({
     return {
       isExpanded: false,
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      displayedDate: dayjs(this.modelValue),
-      focusedDate: dayjs(this.modelValue)
+      displayedDate: dayjs(this.modelValue)
     }
   },
   computed: {
@@ -168,9 +166,6 @@ export default defineComponent({
   methods: {
     isDateSelected(date: number): boolean {
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
-    },
-    isDateFocused(date: number): boolean {
-      return this.displayedDate.set('date', date).isSame(this.focusedDate)
     },
     selectValue(date: number) {
       this.$emit('update:modelValue', this.displayedDate.set('date', date))
@@ -211,17 +206,26 @@ export default defineComponent({
     },
     onKeydown(e: KeyboardEvent) {
       switch (e.code) {
+        case 'Enter':
+        case 'Space':
+        case 'Escape':
+          this.close()
+          break
         case 'ArrowDown':
-          this.focusedDate = this.focusedDate.add(7, 'day')
+          this.displayedDate = this.displayedDate.add(7, 'day')
+          this.$emit('update:modelValue', this.displayedDate)
           break
         case 'ArrowUp':
-          this.focusedDate = this.focusedDate.subtract(7, 'day')
+          this.displayedDate = this.displayedDate.subtract(7, 'day')
+          this.$emit('update:modelValue', this.displayedDate)
           break
         case 'ArrowRight':
-          this.focusedDate = this.focusedDate.add(1, 'day')
+          this.displayedDate = this.displayedDate.add(1, 'day')
+          this.$emit('update:modelValue', this.displayedDate)
           break
         case 'ArrowLeft':
-          this.focusedDate = this.focusedDate.subtract(1, 'day')
+          this.displayedDate = this.displayedDate.subtract(1, 'day')
+          this.$emit('update:modelValue', this.displayedDate)
           break
       }
     }
