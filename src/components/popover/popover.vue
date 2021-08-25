@@ -18,6 +18,7 @@
       <div v-if="visible"
            class="absolute flex items-center"
            :class="positionClasses"
+           @click="$event.stopPropagation()"
       >
         <div class="flex-shrink-0 w-2.5 h-2.5"
              :class="[triangleRotation, triangleBackground]"
@@ -44,10 +45,10 @@ import { defineComponent } from 'vue'
 import { directive } from 'vue3-click-away'
 
 const positions = {
-  bottom: '-left-1/2 top-[110%] flex-col',
+  bottom: 'mx-auto top-[100%] flex-col inset-x-0',
   right: 'my-auto left-[130%] flex-row inset-y-0',
   left: 'my-auto right-[130%] flex-row-reverse inset-y-0',
-  top: '-left-1/2 bottom-[100%] flex-col-reverse'
+  top: 'mx-auto bottom-[100%] flex-col-reverse inset-x-0'
 }
 
 const triangleRotations = {

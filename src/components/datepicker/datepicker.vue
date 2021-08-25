@@ -15,29 +15,24 @@
                 leave-to-class="opacity-0 -translate-y-4"
     >
       <div v-if="isExpanded"
+           ref="calendar"
            v-click-away="close"
-           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm"
+           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm outline-none"
+           tabindex="0"
+           @keydown="onKeydown"
       >
+        {{ focusedDate }}
         <div class="flex justify-between px-2">
           <button class="text-gray-400 hover:text-gray-300"
                   @click="showPrevMonth"
           >
             <ChevronLeftIcon class="w-4 h-4" />
           </button>
-          <!-- <p>
-            {{ currentMonth }} {{ currentYear }}
-          </p> -->
-          <div class="flex">
-            <Popover on="click">
-              <p>{{ currentMonth }}</p>
-              <template #popover>
-                popover
-                jhgjhfjf
-                gjhghfggf
-              </template>
-            </Popover>
-            <p>{{ currentYear }}</p>
-          </div>
+          <MonthPicker :date="displayedDate"
+                       @showPrevYear="showPrevYear"
+                       @showNextYear="showNextYear"
+                       @selectDate="selectMonth"
+          />
           <button class="text-gray-400 hover:text-gray-300"
                   @click="showNextMonth"
           >
@@ -68,7 +63,7 @@
                   @click="selectValue(day)"
           >
             <p class="rounded-full"
-               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50']"
+               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50', isDateFocused(day) && 'bg-gray-50']"
             >
               {{ day }}
             </p>
@@ -94,7 +89,7 @@ import Input from '/~/components/input/input.vue'
 import CalendarIcon from './components/calendar-icon.vue'
 import ChevronLeftIcon from './components/chevron-left-icon.vue'
 import ChevronRightIcon from './components/chevron-right-icon.vue'
-import Popover from '/~/components/popover/popover.vue'
+import MonthPicker from './components/monthpicker.vue'
 import * as dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { directive } from 'vue3-click-away'
@@ -108,7 +103,7 @@ export default defineComponent({
     CalendarIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
-    Popover
+    MonthPicker
   },
   directives: {
     ClickAway: directive
@@ -136,7 +131,8 @@ export default defineComponent({
     return {
       isExpanded: false,
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      displayedDate: dayjs(this.modelValue)
+      displayedDate: dayjs(this.modelValue),
+      focusedDate: dayjs(this.modelValue)
     }
   },
   computed: {
@@ -173,6 +169,9 @@ export default defineComponent({
     isDateSelected(date: number): boolean {
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
     },
+    isDateFocused(date: number): boolean {
+      return this.displayedDate.set('date', date).isSame(this.focusedDate)
+    },
     selectValue(date: number) {
       this.$emit('update:modelValue', this.displayedDate.set('date', date))
       this.isExpanded = false
@@ -191,12 +190,40 @@ export default defineComponent({
     showNextMonth() {
       this.displayedDate = this.displayedDate.add(1, 'month')
     },
+    showPrevYear(count = 1) {
+      this.displayedDate = this.displayedDate.subtract(count, 'year')
+    },
+    showNextYear(count = 1) {
+      this.displayedDate = this.displayedDate.add(count, 'year')
+    },
     open() {
       this.displayedDate = dayjs(this.modelValue)
       this.isExpanded = true
+      this.$nextTick(() => {
+        this.$refs.calendar.focus()
+      })
     },
     close() {
       this.isExpanded = false
+    },
+    selectMonth(i: number) {
+      this.displayedDate = this.displayedDate.set('month', i)
+    },
+    onKeydown(e: KeyboardEvent) {
+      switch (e.code) {
+        case 'ArrowDown':
+          this.focusedDate = this.focusedDate.add(7, 'day')
+          break
+        case 'ArrowUp':
+          this.focusedDate = this.focusedDate.subtract(7, 'day')
+          break
+        case 'ArrowRight':
+          this.focusedDate = this.focusedDate.add(1, 'day')
+          break
+        case 'ArrowLeft':
+          this.focusedDate = this.focusedDate.subtract(1, 'day')
+          break
+      }
     }
   }
 })
