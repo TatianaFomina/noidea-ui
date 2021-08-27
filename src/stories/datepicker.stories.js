@@ -1,3 +1,4 @@
+import CalendarIcon from '../components/datepicker/components/calendar-icon.vue'
 import Datepicker from '../components/datepicker/datepicker.vue'
 
 export default {
@@ -11,7 +12,7 @@ export default {
 }
 
 const Template = (args) => ({
-  components: { Datepicker },
+  components: { Datepicker, CalendarIcon },
   setup() {
     return { args }
   },
@@ -20,7 +21,11 @@ const Template = (args) => ({
       date: new Date()
     }
   },
-  template: '<Datepicker  style="max-width: 320px" v-bind="args" v-model="date"/>'
+  template: `
+    <Datepicker style="max-width: 320px" v-bind="args" v-model="date">
+      <CalendarIcon class="w-4 h-4 text-gray-400"/>
+    </Datepicker>
+  `
 })
 
 export const Default = Template.bind({})

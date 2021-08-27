@@ -1,6 +1,6 @@
 <template>
   <div v-click-away="onClickAway"
-       class="relative"
+       class="relative w-max"
        :class="[on === 'click' && 'cursor-pointer']"
        @click="on === 'click' && toggle()"
        @mouseover="on === 'hover' && show()"

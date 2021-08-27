@@ -1,10 +1,7 @@
 <template>
   <div class="flex relative">
-    <Input v-model="proxyModelValue"
-           :label="label "
-    />
     <button @click="open">
-      <CalendarIcon class="w-4 h-4 text-gray-400" />
+      <slot />
     </button>
 
     <transition enter-active-class="transition duration-150"
@@ -17,12 +14,13 @@
       <div v-if="isExpanded"
            ref="calendar"
            v-click-away="close"
-           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm outline-none"
+           class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm outline-none w-60"
            tabindex="0"
            @keydown="onKeydown"
       >
         <div class="flex justify-between px-2">
-          <button class="text-gray-400 hover:text-gray-300"
+          <button ref="firstFocusableElement"
+                  class="text-gray-400 hover:text-gray-300"
                   @click="showPrevMonth"
           >
             <ChevronLeftIcon class="w-4 h-4" />
@@ -49,6 +47,7 @@
         <div class="grid grid-cols-7 grid-rows-6 gap-1 justify-items-center text-sm px-2">
           <button v-for="(day, i) in daysOfPrevMonthCount"
                   :key="day"
+                  :tabindex="isDateSelected(day) ? 0 : -1"
                   class="text-gray-200 w-7 h-7 leading-7 text-center"
                   @click="selectValuePrevMonth(day)"
           >
@@ -59,6 +58,7 @@
           <button v-for="day in daysInMonth"
                   :key="day"
                   class="w-7 h-7 leading-7 text-center"
+                  :tabindex="isDateSelected(day) ? 0 : -1"
                   @click="selectValue(day)"
           >
             <p class="rounded-full"
@@ -69,6 +69,7 @@
           </button>
           <button v-for="day in daysOfNextMonthCount"
                   :key="day"
+                  :tabindex="isDateSelected(day) ? 0 : -1"
                   class="text-gray-200 w-7 h-7 leading-7 text-center"
                   @click="selectValueNextMonth(day)"
           >
@@ -77,6 +78,10 @@
             </p>
           </button>
         </div>
+        <span class="opacity-0"
+              tabindex="0"
+              @focus="loopFocus"
+        />
       </div>
     </transition>
   </div>
@@ -84,8 +89,6 @@
 
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue'
-import Input from '/~/components/input/input.vue'
-import CalendarIcon from './components/calendar-icon.vue'
 import ChevronLeftIcon from './components/chevron-left-icon.vue'
 import ChevronRightIcon from './components/chevron-right-icon.vue'
 import MonthPicker from './components/monthpicker.vue'
@@ -98,8 +101,6 @@ dayjs.extend(localizedFormat)
 export default defineComponent({
   name: 'Datepicker',
   components: {
-    Input,
-    CalendarIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
     MonthPicker
@@ -144,12 +145,7 @@ export default defineComponent({
       return this.displayedDate.format('YYYY')
     },
     proxyModelValue() {
-      // if (value instanceof Date) {
-      // return value
-      // console.log(value)
       return dayjs(this.modelValue).format('L')
-      // }
-      // return value
     },
     daysOfPrevMonthCount() {
       return this.displayedDate.startOf('month').day()
@@ -228,6 +224,12 @@ export default defineComponent({
           this.$emit('update:modelValue', this.displayedDate)
           break
       }
+    },
+    /**
+     * Prevents focus from leaving dropdown element
+     */
+    loopFocus() {
+      this.$refs.firstFocusableElement.focus()
     }
   }
 })
