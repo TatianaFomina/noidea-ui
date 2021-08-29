@@ -1,7 +1,7 @@
 import Checkbox from '../components/checkbox/checkbox.vue'
 
 export default {
-  title: 'Components/Checkbox',
+  title: 'Form/Checkbox',
   component: Checkbox,
   argTypes: {
     label: { control: { type: 'text' }, defaultValue: 'Check me' },

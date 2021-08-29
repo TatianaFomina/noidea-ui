@@ -1,7 +1,7 @@
 import RadioButton from '../components/radio-button/radio-button.vue'
 
 export default {
-  title: 'Components/RadioButton',
+  title: 'Form/RadioButton',
   component: RadioButton,
   argTypes: {
     label: { control: { type: 'text' }, defaultValue: 'Select me' },

@@ -2,7 +2,7 @@ import Datepicker from '../components/datepicker/datepicker.vue'
 import CalendarIcon from '../components/input/components/calendar-icon.vue'
 
 export default {
-  title: 'Components/Datepicker',
+  title: 'Form/Datepicker',
   component: Datepicker,
   argTypes: {
     label: { control: { type: 'text' }, defaultValue: 'Birthday' },

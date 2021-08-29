@@ -1,7 +1,7 @@
 import Input from '../components/input/input.vue'
 
 export default {
-  title: 'Components/Input',
+  title: 'Form/Input',
   component: Input,
   argTypes: {
     type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'date'], defaultValue: 'text' },
