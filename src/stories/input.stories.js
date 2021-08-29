@@ -4,7 +4,7 @@ export default {
   title: 'Form/Input',
   component: Input,
   argTypes: {
-    type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'date'], defaultValue: 'text' },
+    type: { control: { type: 'select' }, options: ['text', 'number', 'password'], defaultValue: 'text' },
     label: { control: 'text', defaultValue: 'Name' },
     disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text' },
@@ -37,10 +37,4 @@ export const Password = Template.bind({})
 Password.args = {
   type: 'password',
   label: 'Password'
-}
-
-export const Date = Template.bind({})
-Date.args = {
-  type: 'date',
-  label: 'Date'
 }

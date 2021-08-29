@@ -12,11 +12,11 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <div class="bg-white flex rounded-full border transition focus-within:ring"
-         :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
+    <div class="flex rounded-full border transition focus-within:ring"
+         :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50', disabled ? 'bg-gray-50 cursor-not-allowed' : 'bg-whitehover:text-gray-300']"
     >
       <input id="input"
-             class="h-9 focus:outline-none px-4 disabled:cursor-not-allowed flex-1 placeholder-gray-300 disabled:bg-gray-50 rounded-full"
+             class="h-9 focus:outline-none px-4 flex-1 placeholder-gray-300 rounded-full"
              :type="proxyType"
              :placeholder="placeholder"
              :disabled="disabled"
@@ -25,10 +25,10 @@
              :value="modelValue"
              @input="handleInput"
       >
-      <button v-if="isPassword"
+      <button v-if="!$slots.suffix && isPassword"
               aria-label="Toggle password visibility"
               class="pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
-              :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:text-gray-300']"
+              :class="[error ? 'border-red' : 'border-gray-300']"
               @click="togglePasswordVisibility"
       >
         <EyeIcon v-if="proxyType === 'password'"
@@ -38,18 +38,7 @@
                     class="w-4 h-4"
         />
       </button>
-      <Datepicker v-if="isDate"
-                  :model-value="modelValue"
-                  position="left"
-                  @update:modelValue="$emit('update:modelValue', $event)"
-      >
-        <button aria-label="Expand date selection"
-                class="pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
-                :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:text-gray-300']"
-        >
-          <CalendarIcon class="w-4 h-4" />
-        </button>
-      </Datepicker>
+      <slot name="suffix" />
     </div>
     <transition enter-active-class="transition duration-150"
                 enter-from-class="transform -translate-y-full opacity-0"
@@ -71,16 +60,12 @@
 import { defineComponent } from 'vue'
 import EyeIcon from './components/eye-icon.vue'
 import EyeOffIcon from './components/eye-off-icon.vue'
-import CalendarIcon from './components/calendar-icon.vue'
-import Datepicker from '/~/components/datepicker/datepicker.vue'
 
 export default defineComponent({
   name: 'Input',
   components: {
     EyeIcon,
-    EyeOffIcon,
-    CalendarIcon,
-    Datepicker
+    EyeOffIcon
   },
   props: {
     modelValue: {
@@ -91,7 +76,7 @@ export default defineComponent({
       type: String,
       default: 'text',
       validator(value) {
-        return ['text', 'number', 'password', 'date'].includes(value)
+        return ['text', 'number', 'password'].includes(value)
       }
     },
     error: {
@@ -123,7 +108,7 @@ export default defineComponent({
   data() {
     return {
       errorMessage: null as string,
-      proxyType: this.type === 'date' ? 'text' : this.type
+      proxyType: this.type
     }
   },
   computed: {
