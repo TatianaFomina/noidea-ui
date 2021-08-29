@@ -1,5 +1,5 @@
-import CalendarIcon from '../components/datepicker/components/calendar-icon.vue'
 import Datepicker from '../components/datepicker/datepicker.vue'
+import CalendarIcon from '../components/input/components/calendar-icon.vue'
 
 export default {
   title: 'Components/Datepicker',

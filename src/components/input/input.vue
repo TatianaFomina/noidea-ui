@@ -12,11 +12,11 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <div class="flex rounded-full border transition overflow-hidden focus-within:ring"
+    <div class="bg-white flex rounded-full border transition focus-within:ring"
          :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
     >
       <input id="input"
-             class="h-9 focus:outline-none px-4 disabled:cursor-not-allowed flex-1 placeholder-gray-300 disabled:bg-gray-50"
+             class="h-9 focus:outline-none px-4 disabled:cursor-not-allowed flex-1 placeholder-gray-300 disabled:bg-gray-50 rounded-full"
              :type="proxyType"
              :placeholder="placeholder"
              :disabled="disabled"
@@ -38,6 +38,18 @@
                     class="w-4 h-4"
         />
       </button>
+      <Datepicker v-if="isDate"
+                  :model-value="modelValue"
+                  position="left"
+                  @update:modelValue="$emit('update:modelValue', $event)"
+      >
+        <button aria-label="Expand date selection"
+                class="pr-4 pl-3 text-gray-400  font-medium leading-[20px] flex items-center focus:outline-none"
+                :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:text-gray-300']"
+        >
+          <CalendarIcon class="w-4 h-4" />
+        </button>
+      </Datepicker>
     </div>
     <transition enter-active-class="transition duration-150"
                 enter-from-class="transform -translate-y-full opacity-0"
@@ -59,12 +71,16 @@
 import { defineComponent } from 'vue'
 import EyeIcon from './components/eye-icon.vue'
 import EyeOffIcon from './components/eye-off-icon.vue'
+import CalendarIcon from './components/calendar-icon.vue'
+import Datepicker from '/~/components/datepicker/datepicker.vue'
 
 export default defineComponent({
   name: 'Input',
   components: {
     EyeIcon,
-    EyeOffIcon
+    EyeOffIcon,
+    CalendarIcon,
+    Datepicker
   },
   props: {
     modelValue: {
@@ -73,7 +89,10 @@ export default defineComponent({
     },
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
+      validator(value) {
+        return ['text', 'number', 'password', 'date'].includes(value)
+      }
     },
     error: {
       type: String,
@@ -104,12 +123,15 @@ export default defineComponent({
   data() {
     return {
       errorMessage: null as string,
-      proxyType: this.type
+      proxyType: this.type === 'date' ? 'text' : this.type
     }
   },
   computed: {
     isPassword() {
       return this.type === 'password'
+    },
+    isDate() {
+      return this.type === 'date'
     }
   },
   watch: {
@@ -123,8 +145,8 @@ export default defineComponent({
     }
   },
   methods: {
-    handleInput(value: Event) {
-      this.$emit('update:modelValue', value)
+    handleInput(e: Event) {
+      this.$emit('update:modelValue', e.target.value)
     },
     togglePasswordVisibility() {
       if (this.proxyType === 'password') {

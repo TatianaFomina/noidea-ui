@@ -4,7 +4,7 @@ export default {
   title: 'Components/Input',
   component: Input,
   argTypes: {
-    type: { control: { type: 'select' }, options: ['text', 'number', 'password'], defaultValue: 'text' },
+    type: { control: { type: 'select' }, options: ['text', 'number', 'password', 'date'], defaultValue: 'text' },
     label: { control: 'text', defaultValue: 'Name' },
     disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text' },
@@ -18,7 +18,12 @@ const Template = (args) => ({
   setup() {
     return { args }
   },
-  template: '<div style="max-width: 320px"><Input v-bind="args" /> </div>'
+  data() {
+    return {
+      value: null
+    }
+  },
+  template: '<div style="max-width: 320px"><Input v-bind="args" v-model="value"/> </div>'
 })
 
 export const Default = Template.bind({})
@@ -32,4 +37,10 @@ export const Password = Template.bind({})
 Password.args = {
   type: 'password',
   label: 'Password'
+}
+
+export const Date = Template.bind({})
+Date.args = {
+  type: 'date',
+  label: 'Date'
 }

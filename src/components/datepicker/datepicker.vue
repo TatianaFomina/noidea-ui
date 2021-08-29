@@ -1,6 +1,6 @@
 <template>
   <div class="flex relative">
-    <button @click="open">
+    <button @click="!disabled && open()">
       <slot />
     </button>
 
@@ -14,6 +14,7 @@
       <div v-if="isExpanded"
            ref="calendar"
            v-click-away="close"
+           :class="positionClasses"
            class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm outline-none w-60"
            tabindex="0"
            @keydown="onKeydown"
@@ -96,6 +97,11 @@ import * as dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { directive } from 'vue3-click-away'
 
+const positions = {
+  right: 'left-0',
+  left: 'right-0'
+}
+
 dayjs.extend(localizedFormat)
 
 export default defineComponent({
@@ -109,21 +115,36 @@ export default defineComponent({
     ClickAway: directive
   },
   props: {
-    label: {
-      type: String,
-      default: null
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
     modelValue: {
       type: [String, Object as PropType<Date>],
-      default: null
+      default: dayjs()
     },
+
+    /**
+     * Determines whether calendar should open on click
+     */
     disabled: {
       type: Boolean,
       default: false
+    },
+
+    /**
+     * Format output value is represented in
+     */
+    outputFormat: {
+      type: String,
+      default: 'L'
+    },
+
+    /**
+     * Dropdown calendar position relative to its trigger
+     */
+    position: {
+      type: String,
+      default: 'right',
+      validator(value) {
+        return ['right', 'left'].includes(value)
+      }
     }
   },
   emits: ['update:modelValue'],
@@ -131,7 +152,7 @@ export default defineComponent({
     return {
       isExpanded: false,
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      displayedDate: dayjs(this.modelValue)
+      displayedDate: null as dayjs.Dayjs
     }
   },
   computed: {
@@ -157,6 +178,9 @@ export default defineComponent({
     },
     daysOfNextMonthCount() {
       return 42 - this.daysInMonth - this.daysOfPrevMonthCount
+    },
+    positionClasses() {
+      return positions[this.position] || positions.right
     }
   },
   methods: {
@@ -164,15 +188,15 @@ export default defineComponent({
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
     },
     selectValue(date: number) {
-      this.$emit('update:modelValue', this.displayedDate.set('date', date))
+      this.$emit('update:modelValue', this.displayedDate.set('date', date).format(this.outputFormat))
       this.isExpanded = false
     },
     selectValueNextMonth(date: number) {
-      this.$emit('update:modelValue', this.displayedDate.add(1, 'month').set('date', date))
+      this.$emit('update:modelValue', this.displayedDate.add(1, 'month').set('date', date).format(this.outputFormat))
       this.isExpanded = false
     },
     selectValuePrevMonth(date: number) {
-      this.$emit('update:modelValue', this.displayedDate.subtract(1, 'month').set('date', date))
+      this.$emit('update:modelValue', this.displayedDate.subtract(1, 'month').set('date', date).format(this.outputFormat))
       this.isExpanded = false
     },
     showPrevMonth() {
@@ -188,7 +212,7 @@ export default defineComponent({
       this.displayedDate = this.displayedDate.add(count, 'year')
     },
     open() {
-      this.displayedDate = dayjs(this.modelValue)
+      this.displayedDate = this.modelValue ? dayjs(this.modelValue) : dayjs()
       this.isExpanded = true
       this.$nextTick(() => {
         this.$refs.calendar.focus()
@@ -209,19 +233,19 @@ export default defineComponent({
           break
         case 'ArrowDown':
           this.displayedDate = this.displayedDate.add(7, 'day')
-          this.$emit('update:modelValue', this.displayedDate)
+          this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowUp':
           this.displayedDate = this.displayedDate.subtract(7, 'day')
-          this.$emit('update:modelValue', this.displayedDate)
+          this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowRight':
           this.displayedDate = this.displayedDate.add(1, 'day')
-          this.$emit('update:modelValue', this.displayedDate)
+          this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowLeft':
           this.displayedDate = this.displayedDate.subtract(1, 'day')
-          this.$emit('update:modelValue', this.displayedDate)
+          this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
       }
     },
