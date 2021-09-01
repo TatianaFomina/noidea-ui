@@ -6,14 +6,14 @@
          :disabled="disabled"
          :label="label"
          :requied="required"
-         :placeholder="pattern"
+         :placeholder="patternStr"
          :error="error"
          @update:modelValue="onInput($event)"
   >
     <template #suffix>
       <Datepicker :model-value="modelValue"
                   :disabled="disabled"
-                  :input-pattern="pattern"
+                  :input-pattern="patternStr"
                   position="left"
                   @update:modelValue="$emit('update:modelValue', $event)"
       >
@@ -34,6 +34,13 @@ import Cleave from 'cleave.js'
 import Datepicker from '/~/components/datepicker/datepicker.vue'
 import CalendarIcon from './components/calendar-icon.vue'
 import Input from '/~/components/input/input.vue'
+
+const mapping = {
+  m: 'MM',
+  d: 'DD',
+  y: 'YY',
+  Y: 'YYYY'
+}
 
 export default defineComponent({
   name: 'DateInput',
@@ -67,18 +74,20 @@ export default defineComponent({
       type: String,
       default: null
     },
-    pattern: {
-      type: String,
-      default: 'MM/DD/YYYY'
-    },
     /**
      * Array indicating date pattern in Cleave.js style
      * ref: https://github.com/nosir/cleave.js/blob/master/doc/options.md#datepattern
      */
     datePattern: {
       type: Array,
-      default: () => ['m', 'd', 'Y']
+      default: () => ['m', 'd', 'Y'],
+      validator(value: string[]) {
+        return value.length === 3 && value.every(item => ['d', 'm', 'y', 'Y'].includes(item))
+      }
     },
+    /**
+     * Date parts delimeter
+     */
     delimeter: {
       type: String,
       default: '/'
@@ -88,6 +97,11 @@ export default defineComponent({
   data() {
     return {
       cleave: null
+    }
+  },
+  computed: {
+    patternStr() {
+      return this.datePattern.map(item => mapping[item]).join(this.delimeter)
     }
   },
   mounted() {

@@ -222,7 +222,12 @@ export default defineComponent({
       this.displayedDate = this.displayedDate.add(count, 'year')
     },
     open() {
-      this.displayedDate = this.modelValue ? dayjs(this.modelValue, this.inputPattern) : dayjs()
+      let value = this.modelValue ? dayjs(this.modelValue, this.inputPattern) : dayjs()
+
+      if (!value.isValid()) {
+        value = dayjs()
+      }
+      this.displayedDate = value
       this.isExpanded = true
       this.$nextTick(() => {
         this.$refs.calendar.focus()
