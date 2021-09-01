@@ -5,7 +5,7 @@
          :name="name"
          :disabled="disabled"
          :label="label"
-         :requied="required"
+         :required="required"
          :placeholder="patternStr"
          :error="error"
          @update:modelValue="onInput($event)"
