@@ -1,7 +1,7 @@
 import Select from '../components/select/select.vue'
 
 export default {
-  title: 'Components/Select',
+  title: 'Form/Select',
   component: Select,
   argTypes: {
     label: { control: 'text', defaultValue: 'City' },

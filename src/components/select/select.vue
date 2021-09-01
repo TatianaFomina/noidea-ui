@@ -15,7 +15,7 @@
 
     <div v-click-away="close"
          class="w-full flex relative outline-none rounded-full border transition h-9 focus:ring"
-         :class="[disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
+         :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
          tabindex="0"
          @blur="close"
          @click="!disabled && toggle()"
@@ -52,7 +52,7 @@
       >
         <ul v-if="isOpen"
             id="listbox"
-            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white"
+            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm"
             role="listbox"
         >
           <li v-for="(option, i) of options"

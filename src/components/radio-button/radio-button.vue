@@ -3,7 +3,7 @@
          :class="[disabled ? 'text-gray-300' : 'text-gray-500']"
   >
     <div class="relative w-4 h-4 focus-within:ring ring-blue-50 rounded-full bg-gray-50 border border-gray-300"
-         :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+         :class="[disabled ? 'cursor-default' : 'cursor-pointer']"
     >
       <input type="radio"
              :name="name"

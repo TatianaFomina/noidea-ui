@@ -1,7 +1,7 @@
 import Input from '../components/input/input.vue'
 
 export default {
-  title: 'Components/Input',
+  title: 'Form/Input',
   component: Input,
   argTypes: {
     type: { control: { type: 'select' }, options: ['text', 'number', 'password'], defaultValue: 'text' },
@@ -18,7 +18,12 @@ const Template = (args) => ({
   setup() {
     return { args }
   },
-  template: '<div style="max-width: 320px"><Input v-bind="args" /> </div>'
+  data() {
+    return {
+      value: null
+    }
+  },
+  template: '<div style="max-width: 320px"><Input v-bind="args" v-model="value"/> </div>'
 })
 
 export const Default = Template.bind({})

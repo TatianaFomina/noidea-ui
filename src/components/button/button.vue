@@ -1,6 +1,6 @@
 <template>
   <button :class="[classNames, rounded ? 'rounded-full' : 'rounded-md']"
-          class="uppercase py-1 font-bold focus:outline-none focus:ring disabled:cursor-not-allowed transition-colors relative"
+          class="uppercase py-1 font-bold focus:outline-none focus:ring disabled:cursor-default transition-colors relative"
           :disabled="disabled"
   >
     <div :class="[loading && 'opacity-0']">
