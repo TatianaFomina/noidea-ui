@@ -41,6 +41,7 @@
                       :key="item"
                       class="text-sm text-center rounded-xl"
                       :class="[isYearSelected(item) ? 'bg-white bg-opacity-50' : 'hover:bg-white hover:bg-opacity-20']"
+                      @click="$refs.popover.hide(); $emit('selectYear', item)"
               >
                 {{ item }}
               </button>
@@ -72,7 +73,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['selectDate', 'showPrevYear', 'showNextYear'],
+  emits: ['selectDate', 'selectYear', 'showPrevYear', 'showNextYear'],
   data() {
     return {
       yearSelectionMode: false

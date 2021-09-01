@@ -24,14 +24,18 @@
                   class="text-gray-400 hover:text-gray-300"
                   @click="showPrevMonth"
           >
-            <ChevronLeftIcon class="w-4 h-4" />
+            <ChevronLeftIcon ref="leftButton"
+                             class="w-4 h-4"
+            />
           </button>
           <MonthPicker :date="displayedDate"
                        @showPrevYear="showPrevYear"
                        @showNextYear="showNextYear"
-                       @selectDate="selectMonth"
+                       @selectMonth="selectMonth"
+                       @selectYear="selectYear"
           />
-          <button class="text-gray-400 hover:text-gray-300"
+          <button ref="rightButton"
+                  class="text-gray-400 hover:text-gray-300"
                   @click="showNextMonth"
           >
             <ChevronRightIcon class="w-4 h-4" />
@@ -239,10 +243,19 @@ export default defineComponent({
     selectMonth(i: number) {
       this.displayedDate = this.displayedDate.set('month', i)
     },
+    selectYear(year: number) {
+      this.displayedDate = this.displayedDate.set('year', year)
+    },
     onKeydown(e: KeyboardEvent) {
+      const { firstFocusableElement: leftButton, rightButton } = this.$refs
+
       switch (e.code) {
         case 'Enter':
         case 'Space':
+          if (!leftButton.isSameNode(e.target) && !rightButton.isSameNode(e.target)) {
+            this.close()
+          }
+          break
         case 'Escape':
           this.close()
           break
