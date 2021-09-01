@@ -95,6 +95,7 @@ import ChevronRightIcon from './components/chevron-right-icon.vue'
 import MonthPicker from './components/monthpicker.vue'
 import * as dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { directive } from 'vue3-click-away'
 
 const positions = {
@@ -103,6 +104,7 @@ const positions = {
 }
 
 dayjs.extend(localizedFormat)
+dayjs.extend(customParseFormat)
 
 export default defineComponent({
   name: 'Datepicker',
@@ -126,6 +128,14 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+
+    /**
+     * Format input value is represented in
+     */
+    inputPattern: {
+      type: String,
+      default: 'L'
     },
 
     /**
@@ -212,7 +222,7 @@ export default defineComponent({
       this.displayedDate = this.displayedDate.add(count, 'year')
     },
     open() {
-      this.displayedDate = this.modelValue ? dayjs(this.modelValue) : dayjs()
+      this.displayedDate = this.modelValue ? dayjs(this.modelValue, this.inputPattern) : dayjs()
       this.isExpanded = true
       this.$nextTick(() => {
         this.$refs.calendar.focus()

@@ -16,6 +16,7 @@
          :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50', disabled ? 'bg-gray-50 cursor-not-allowed' : 'bg-whitehover:text-gray-300']"
     >
       <input id="input"
+             ref="input"
              class="h-9 focus:outline-none px-4 flex-1 placeholder-gray-300 rounded-full"
              :type="proxyType"
              :placeholder="placeholder"
@@ -117,6 +118,12 @@ export default defineComponent({
     },
     isDate() {
       return this.type === 'date'
+    },
+    /**
+     * Reference to HTML input element
+     */
+    inputRef() {
+      return this.$refs.input
     }
   },
   watch: {

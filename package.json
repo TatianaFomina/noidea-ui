@@ -10,6 +10,7 @@
     "deploy-storybook": "storybook-to-ghpages --out=.out"
   },
   "dependencies": {
+    "cleave.js": "^1.6.0",
     "dayjs": "^1.10.6",
     "vue": "^3.0.5",
     "vue3-click-away": "^1.2.1"

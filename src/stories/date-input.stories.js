@@ -34,5 +34,5 @@ Error.args = {
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  deisabled: true
+  disabled: true
 }
