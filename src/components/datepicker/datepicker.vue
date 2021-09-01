@@ -28,7 +28,8 @@
                              class="w-4 h-4"
             />
           </button>
-          <MonthPicker :date="displayedDate"
+          <MonthPicker ref="monthpicker"
+                       :date="displayedDate"
                        @showPrevYear="showPrevYear"
                        @showNextYear="showNextYear"
                        @selectMonth="selectMonth"
@@ -170,29 +171,53 @@ export default defineComponent({
     }
   },
   computed: {
-    daysInMonth() {
+    /**
+     * Number of days in current month
+     */
+    daysInMonth(): number {
       return this.displayedDate.daysInMonth()
     },
-    currentMonth() {
+
+    /**
+     * Current month name
+     */
+    currentMonth(): string {
       return this.displayedDate.format('MMMM')
     },
-    currentYear() {
+
+    /**
+     * Current year string representation
+     */
+    currentYear(): string {
       return this.displayedDate.format('YYYY')
     },
-    proxyModelValue() {
-      return dayjs(this.modelValue).format('L')
-    },
-    daysOfPrevMonthCount() {
+
+    /**
+     * Number of days in previous month
+     */
+    daysOfPrevMonthCount(): number {
       return this.displayedDate.startOf('month').day()
     },
-    firstDayOfPrevMonthDisplayed() {
+
+    /**
+     * First of last several days of previous month displayed in calendar
+     */
+    firstDayOfPrevMonthDisplayed(): number {
       const daysInPrevMonth = this.displayedDate.subtract(1, 'month').daysInMonth()
 
       return daysInPrevMonth - this.daysOfPrevMonthCount
     },
-    daysOfNextMonthCount() {
+
+    /**
+     * Number of next month days displayed in calendar
+     */
+    daysOfNextMonthCount(): number {
       return 42 - this.daysInMonth - this.daysOfPrevMonthCount
     },
+
+    /**
+     * CSS classes applied to calendar dropdown according to props passed
+     */
     positionClasses() {
       return positions[this.position] || positions.right
     }
@@ -262,13 +287,13 @@ export default defineComponent({
       this.displayedDate = this.displayedDate.set('year', year)
     },
     onKeydown(e: KeyboardEvent) {
-      const { firstFocusableElement: leftButton, rightButton } = this.$refs
+      const { firstFocusableElement: leftButton, rightButton, monthpicker } = this.$refs
 
       switch (e.code) {
         case 'Enter':
         case 'Space':
-          // Don't close calendar if hitting space or enter with arrow buttons focused
-          if (!leftButton.isSameNode(e.target) && !rightButton.isSameNode(e.target)) {
+          // Don't close calendar if hitting space or enter with arrow or monthpicker buttons focused
+          if (!leftButton.isSameNode(e.target) && !rightButton.isSameNode(e.target) && !monthpicker.$el.contains(e.target)) {
             this.close()
           }
           break
