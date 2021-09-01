@@ -1,6 +1,8 @@
 <template>
   <div class="flex relative">
-    <button @click="!disabled && open()">
+    <button aria-label="Expand date selection"
+            @click="!disabled && open()"
+    >
       <slot />
     </button>
 
@@ -14,6 +16,8 @@
       <div v-if="isExpanded"
            ref="calendar"
            v-click-away="close"
+           role="dialog"
+           aria-modal="true"
            :class="positionClasses"
            class="absolute top-[120%] rounded-2xl border border-gray-200 py-2 bg-white text-gray-500 space-y-2 shadow-sm outline-none w-60"
            tabindex="0"

@@ -17,12 +17,12 @@
                   position="left"
                   @update:modelValue="$emit('update:modelValue', $event)"
       >
-        <button aria-label="Expand date selection"
-                class="pr-4 pl-3 text-gray-400 font-medium leading-[20px] flex items-center focus:outline-none bg-transparent"
-                :class="[error ? 'border-red' : 'border-gray-300']"
+        <div
+          class="pr-4 pl-3 font-medium leading-[20px] flex items-center focus:outline-none bg-transparent"
+          :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'text-gray-300' : 'text-gray-400']"
         >
           <CalendarIcon class="w-4 h-4" />
-        </button>
+        </div>
       </Datepicker>
     </template>
   </Input>
