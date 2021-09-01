@@ -52,7 +52,7 @@
         <div class="grid grid-cols-7 grid-rows-6 gap-1 justify-items-center text-sm px-2">
           <button v-for="(day, i) in daysOfPrevMonthCount"
                   :key="day"
-                  :tabindex="isDateSelected(day) ? 0 : -1"
+                  :tabindex="isDateSelectedPrevMonth(day) ? 0 : -1"
                   class="text-gray-200 w-7 h-7 leading-7 text-center"
                   @click="selectValuePrevMonth(day)"
           >
@@ -74,7 +74,7 @@
           </button>
           <button v-for="day in daysOfNextMonthCount"
                   :key="day"
-                  :tabindex="isDateSelected(day) ? 0 : -1"
+                  :tabindex="isDateSelectedNextMonth(day) ? 0 : -1"
                   class="text-gray-200 w-7 h-7 leading-7 text-center"
                   @click="selectValueNextMonth(day)"
           >
@@ -198,8 +198,23 @@ export default defineComponent({
     }
   },
   methods: {
+    /**
+     * Returns true if day with specified index in current month in selected
+     */
     isDateSelected(date: number): boolean {
       return this.displayedDate.set('date', date).isSame(dayjs(this.modelValue))
+    },
+    /**
+     * Returns true if day with specified index in next month in selected
+     */
+    isDateSelectedNextMonth(date: number): boolean {
+      return this.displayedDate.add(1, 'month').set('date', date).isSame(dayjs(this.modelValue))
+    },
+    /**
+     * Returns true if day with specified index in previous month in selected
+     */
+    isDateSelectedPrevMonth(date: number): boolean {
+      return this.displayedDate.subtract(1, 'month').set('date', date).isSame(dayjs(this.modelValue))
     },
     selectValue(date: number) {
       this.$emit('update:modelValue', this.displayedDate.set('date', date).format(this.outputFormat))
@@ -252,6 +267,7 @@ export default defineComponent({
       switch (e.code) {
         case 'Enter':
         case 'Space':
+          // Don't close calendar if hitting space or enter with arrow buttons focused
           if (!leftButton.isSameNode(e.target) && !rightButton.isSameNode(e.target)) {
             this.close()
           }
@@ -260,18 +276,30 @@ export default defineComponent({
           this.close()
           break
         case 'ArrowDown':
+          if (!this.modelValue) {
+            return
+          }
           this.displayedDate = this.displayedDate.add(7, 'day')
           this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowUp':
+          if (!this.modelValue) {
+            return
+          }
           this.displayedDate = this.displayedDate.subtract(7, 'day')
           this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowRight':
+          if (!this.modelValue) {
+            return
+          }
           this.displayedDate = this.displayedDate.add(1, 'day')
           this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break
         case 'ArrowLeft':
+          if (!this.modelValue) {
+            return
+          }
           this.displayedDate = this.displayedDate.subtract(1, 'day')
           this.$emit('update:modelValue', this.displayedDate.format(this.outputFormat))
           break

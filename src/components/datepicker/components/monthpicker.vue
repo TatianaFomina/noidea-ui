@@ -31,7 +31,7 @@
                       :key="_"
                       class="rounded-xl text-center text-sm"
                       :class="[isMonthSelected(monthIndex) ? 'bg-white bg-opacity-50' : 'hover:bg-white hover:bg-opacity-20']"
-                      @click="$refs.popover.hide(); $emit('selectDate', monthIndex)"
+                      @click="$refs.popover.hide(); $emit('selectMonth', monthIndex)"
               >
                 {{ getMonthName(monthIndex) }}
               </button>
@@ -73,7 +73,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['selectDate', 'selectYear', 'showPrevYear', 'showNextYear'],
+  emits: ['selectMonth', 'selectYear', 'showPrevYear', 'showNextYear'],
   data() {
     return {
       yearSelectionMode: false
