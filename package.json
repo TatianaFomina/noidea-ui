@@ -32,7 +32,6 @@
     "@storybook/addon-links": "^6.3.4",
     "@storybook/storybook-deployer": "^2.8.10",
     "@storybook/vue3": "^6.3.4",
-    "@types/cleave.js": "^1.4.5",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "@vitejs/plugin-vue": "^1.2.3",
