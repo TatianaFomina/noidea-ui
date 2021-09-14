@@ -35,7 +35,7 @@ import Datepicker from '/~/components/datepicker/datepicker.vue'
 import CalendarIcon from './components/calendar-icon.vue'
 import Input from '/~/components/input/input.vue'
 
-const mapping = {
+const mapping: { [item: string]: string } = {
   m: 'MM',
   d: 'DD',
   y: 'YY',
@@ -52,7 +52,7 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: null
+      default: ''
     },
     error: {
       type: String,
@@ -72,7 +72,7 @@ export default defineComponent({
     },
     name: {
       type: String,
-      default: null
+      default: ''
     },
     /**
      * Array indicating date pattern in Cleave.js style
@@ -81,9 +81,7 @@ export default defineComponent({
     datePattern: {
       type: Array,
       default: () => ['m', 'd', 'Y'],
-      validator(value: string[]) {
-        return value.length === 3 && value.every(item => ['d', 'm', 'y', 'Y'].includes(item))
-      }
+      validator: (value: string[]): boolean => value.length === 3 && value.every(item => ['d', 'm', 'y', 'Y'].includes(item))
     },
     /**
      * Date parts delimeter
@@ -100,8 +98,8 @@ export default defineComponent({
     }
   },
   computed: {
-    patternStr() {
-      return this.datePattern.map(item => mapping[item]).join(this.delimeter)
+    patternStr(): string {
+      return this.datePattern.map((item: string) => mapping[item]).join(this.delimeter)
     }
   },
   mounted() {
@@ -111,8 +109,8 @@ export default defineComponent({
       date: true,
       datePattern: ['m', 'd', 'Y'],
       delimiter: '/',
-      onValueChanged: ({ target }) => {
-        this.onInput(target.value)
+      onValueChanged: (e: Event) => {
+        this.onInput((e.target as HTMLInputElement).value)
       }
     })
   },

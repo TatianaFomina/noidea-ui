@@ -19,7 +19,7 @@
 <script lang='ts'>
 import { defineComponent } from 'vue'
 
-const sizes = {
+const sizes: { [size: string]: { width: number, strokeWidth: number } } = {
   sm: {
     width: 18,
     strokeWidth: 3
@@ -50,7 +50,7 @@ export default defineComponent({
       return sizes[this.size]?.width || sizes.md.width
     },
     strokeWidth(): number {
-      return sizes[this.size].strokeWidth || sizes.md.strokeWidth
+      return sizes[this.size]?.strokeWidth || sizes.md.strokeWidth
     },
     centerOffset() {
       return this.width / 2

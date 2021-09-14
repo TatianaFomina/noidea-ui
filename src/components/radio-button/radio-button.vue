@@ -33,15 +33,15 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Boolean,
-      default: null
+      default: false
     },
     label: {
       type: String,
-      default: null
+      default: ''
     },
     name: {
       type: String,
-      default: null
+      default: ''
     },
     disabled: {
       type: Boolean,

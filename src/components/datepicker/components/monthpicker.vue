@@ -31,7 +31,7 @@
                       :key="_"
                       class="rounded-xl text-center text-sm"
                       :class="[isMonthSelected(monthIndex) ? 'bg-white bg-opacity-50' : 'hover:bg-white hover:bg-opacity-20']"
-                      @click="$refs.popover.hide(); $emit('selectMonth', monthIndex)"
+                      @click="selectMonth(monthIndex)"
               >
                 {{ getMonthName(monthIndex) }}
               </button>
@@ -41,7 +41,7 @@
                       :key="item"
                       class="text-sm text-center rounded-xl"
                       :class="[isYearSelected(item) ? 'bg-white bg-opacity-50' : 'hover:bg-white hover:bg-opacity-20']"
-                      @click="$refs.popover.hide(); $emit('selectYear', item)"
+                      @click="selectYear(item)"
               >
                 {{ item }}
               </button>
@@ -126,6 +126,14 @@ export default defineComponent({
       } else {
         this.$emit('showPrevYear')
       }
+    },
+    selectMonth(monthIndex: number) {
+      this.$refs.popover.hide()
+      this.$emit('selectMonth', monthIndex)
+    },
+    selectYear(year: number) {
+      this.$refs.popover.hide()
+      this.$emit('selectYear', year)
     }
   }
 })

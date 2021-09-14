@@ -137,7 +137,7 @@ export default defineComponent({
     return {
       isOpen: false,
       focusedIndex: -1,
-      selectedOption: null as SelectOption,
+      selectedOption: null as unknown as SelectOption,
       errorMessage: null
     }
   },

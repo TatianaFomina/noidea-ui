@@ -8,10 +8,10 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strict": true,
     "noImplicitThis": false,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "baseUrl": "./",
     "paths": {
       "vue": ["node_modules/vue"]

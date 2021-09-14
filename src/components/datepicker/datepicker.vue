@@ -102,12 +102,12 @@ import { defineComponent, PropType } from 'vue'
 import ChevronLeftIcon from './components/chevron-left-icon.vue'
 import ChevronRightIcon from './components/chevron-right-icon.vue'
 import MonthPicker from './components/monthpicker.vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { directive } from 'vue3-click-away'
 
-const positions = {
+const positions: { [key: string]: string } = {
   right: 'left-0',
   left: 'right-0'
 }
@@ -127,8 +127,8 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: [String, Object as PropType<Date>],
-      default: dayjs()
+      type: Object as PropType<Date>,
+      default: () => dayjs()
     },
 
     /**
@@ -161,9 +161,7 @@ export default defineComponent({
     position: {
       type: String,
       default: 'right',
-      validator(value) {
-        return ['right', 'left'].includes(value)
-      }
+      validator: (value: string): boolean => ['right', 'left'].includes(value)
     }
   },
   emits: ['update:modelValue'],
@@ -171,7 +169,7 @@ export default defineComponent({
     return {
       isExpanded: false,
       weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      displayedDate: null as dayjs.Dayjs
+      displayedDate: null as unknown as dayjs.Dayjs
     }
   },
   computed: {

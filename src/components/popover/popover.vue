@@ -44,26 +44,26 @@
 import { defineComponent } from 'vue'
 import { directive } from 'vue3-click-away'
 
-const positions = {
+const positions: { [position: string]: string } = {
   bottom: 'mx-auto top-[100%] flex-col inset-x-0',
   right: 'my-auto left-[130%] flex-row inset-y-0',
   left: 'my-auto right-[130%] flex-row-reverse inset-y-0',
   top: 'mx-auto bottom-[100%] flex-col-reverse inset-x-0'
 }
 
-const triangleRotations = {
+const triangleRotations: { [position: string]: string } = {
   bottom: '',
   right: 'transform -rotate-90',
   left: 'transform rotate-90',
   top: 'transform rotate-180'
 }
 
-const backgrounds = {
+const backgrounds: { [mode: string]: string } = {
   dark: 'bg-gray-500 text-white',
   light: 'bg-blue-50'
 }
 
-const triangleBackgrounds = {
+const triangleBackgrounds: { [mode: string]: string} = {
   dark: 'text-gray-500',
   light: 'text-blue-50'
 }
@@ -77,23 +77,17 @@ export default defineComponent({
     position: {
       type: String,
       default: 'bottom',
-      validator(value) {
-        return ['top', 'bottom', 'right', 'left', 'auto'].includes(value) // TODO auto support
-      }
+      validator: (value: string): boolean => ['top', 'bottom', 'right', 'left', 'auto'].includes(value) // TODO auto support
     },
     on: {
       type: String,
       default: 'hover',
-      validator(value) {
-        return ['hover', 'click'].includes(value)
-      }
+      validator: (value: string): boolean => ['hover', 'click'].includes(value)
     },
     mode: {
       type: String,
       default: 'light',
-      validator(value) {
-        return ['dark', 'light'].includes(value)
-      }
+      validator: (value: string): boolean => ['dark', 'light'].includes(value)
     }
   },
   data() {

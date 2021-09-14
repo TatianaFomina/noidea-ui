@@ -22,7 +22,7 @@
 import { defineComponent } from 'vue'
 import Spinner from '../spinner/spinner.vue'
 
-const classes = {
+const classes: { [look: string]: { [color: string]: string } } = {
   solid: {
     primary: 'text-white bg-blue-200 hover:bg-blue-400 border-blue-400 border-b-2 disabled:bg-blue-100 disabled:text-blue-50 disabled:border-b-transparent ring-blue-50',
     accent: 'text-white bg-pink-300 hover:bg-pink-500 border-pink-500 border-b-2 disabled:bg-pink-100 disabled:text-pink-50 disabled:border-b-transparent ring-pink-50'
@@ -33,7 +33,7 @@ const classes = {
   }
 }
 
-const spinnerClasses = {
+const spinnerClasses: { [look: string]: { [color: string]: string } } = {
   solid: {
     primary: '!text-white',
     accent: '!text-white'
@@ -44,7 +44,7 @@ const spinnerClasses = {
   }
 }
 
-const sizes = {
+const sizes: { [size: string]: string } = {
   sm: 'px-4 h-7 text-xs',
   md: 'px-6 h-9 text-sm',
   lg: 'px-12 h-11 text-sm'

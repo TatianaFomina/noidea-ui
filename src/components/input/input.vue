@@ -71,14 +71,12 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: null
+      default: ''
     },
     type: {
       type: String,
       default: 'text',
-      validator(value) {
-        return ['text', 'number', 'password'].includes(value)
-      }
+      validator: (value: string): boolean => ['text', 'number', 'password'].includes(value)
     },
     error: {
       type: String,
@@ -102,21 +100,21 @@ export default defineComponent({
     },
     name: {
       type: String,
-      default: null
+      default: ''
     }
   },
   emits: ['update:modelValue'],
   data() {
     return {
-      errorMessage: null as string,
+      errorMessage: '',
       proxyType: this.type
     }
   },
   computed: {
-    isPassword() {
+    isPassword(): boolean {
       return this.type === 'password'
     },
-    isDate() {
+    isDate(): boolean {
       return this.type === 'date'
     },
     /**
@@ -138,7 +136,7 @@ export default defineComponent({
   },
   methods: {
     handleInput(e: Event) {
-      this.$emit('update:modelValue', e.target.value)
+      this.$emit('update:modelValue', (e.target as HTMLInputElement).value)
     },
     togglePasswordVisibility() {
       if (this.proxyType === 'password') {
