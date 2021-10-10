@@ -1,8 +1,15 @@
 {
-  "name": "components-kit",
-  "version": "0.0.0",
+  "name": "noidea-ui",
+  "version": "1.0.0",
   "description": "Vue 3 UI kit",
-  "homepage": "https://github.com/TatianaFomina/vue-ui-kit",
+  "homepage": "https://github.com/TatianaFomina/noidea-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TatianaFomina/noidea-ui"
+  },
+  "keywords": [
+    "ui", "vue3", "vuejs", "typescript"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -12,16 +19,21 @@
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages --out=.out"
   },
-  "main": "./dist/components-kit.umd.js",
-  "module": "./dist/components-kit.es.js",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "main": "./dist/noidea-ui.umd.js",
+  "module": "./dist/noidea-ui.es.js",
   "exports": {
     ".": {
-      "import": "./dist/components-kit.es.js",
-      "require": "./dist/components-kit.umd.js"
+      "import": "./dist/noidea-ui.es.js",
+      "require": "./dist/noidea-ui.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "types": "src/types/index.d.ts",
+  "types": "types/index.d.ts",
   "dependencies": {
     "cleave.js": "^1.6.0",
     "dayjs": "^1.10.6",
