@@ -1,6 +1,9 @@
 {
   "name": "components-kit",
   "version": "0.0.0",
+  "description": "Vue 3 UI kit",
+  "homepage": "https://github.com/TatianaFomina/vue-ui-kit",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -8,12 +11,6 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages --out=.out"
-  },
-  "dependencies": {
-    "cleave.js": "^1.6.0",
-    "dayjs": "^1.10.6",
-    "vue": "^3.0.5",
-    "vue3-click-away": "^1.2.1"
   },
   "main": "./dist/components-kit.umd.js",
   "module": "./dist/components-kit.es.js",
@@ -24,6 +21,13 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "types": "src/types/index.d.ts",
+  "dependencies": {
+    "cleave.js": "^1.6.0",
+    "dayjs": "^1.10.6",
+    "vue": "^3.0.5",
+    "vue3-click-away": "^1.2.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@storybook/addon-a11y": "^6.3.4",
@@ -32,6 +36,7 @@
     "@storybook/addon-links": "^6.3.4",
     "@storybook/storybook-deployer": "^2.8.10",
     "@storybook/vue3": "^6.3.4",
+    "@types/cleave.js": "^1.4.5",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "@vitejs/plugin-vue": "^1.2.3",
