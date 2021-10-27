@@ -33,7 +33,7 @@
         <div class="rounded-md shadow-md py-1 px-4"
              :class="bodyBackground"
         >
-          <slot name="popover" />
+          <slot name="tooltip" />
         </div>
       </div>
     </transition>
@@ -69,7 +69,7 @@ const triangleBackgrounds: { [mode: string]: string} = {
 }
 
 export default defineComponent({
-  name: 'Popover',
+  name: 'Tooltip',
   directives: {
     ClickAway: directive
   },

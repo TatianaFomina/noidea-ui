@@ -1,32 +1,32 @@
-import Popover from '../components/popover/popover.vue'
+import Tooltip from '../components/tooltip/tooltip.vue'
 
 export default {
-  title: 'Components/Popover',
-  component: Popover,
+  title: 'Components/Tooltip',
+  component: Tooltip,
   argTypes: {
     on: { control: { type: 'select' }, options: ['click', 'hover'], defaultValue: 'hover' },
     mode: { control: { type: 'select' }, options: ['light', 'dark'], defaultValue: 'light' },
     position: { control: { type: 'select' }, options: ['top', 'bottom', 'right', 'left'], defaultValue: 'bottom' },
-    content: { control: 'text', defaultValue: 'This is popover content!' }
+    content: { control: 'text', defaultValue: 'This is Tooltip content!' }
   }
 }
 
 const Template = (args) => ({
-  components: { Popover },
+  components: { Tooltip },
   setup() {
     return { args }
   },
   template: `
-    <Popover v-bind="args" style="margin-left: auto; margin-right: auto">
+    <Tooltip v-bind="args" style="margin-left: auto; margin-right: auto">
       <div>
         {{ args.on === 'hover' ? 'Hover me' : 'Click me'}}
       </div>
-      <template #popover>
+      <template #tooltip>
         <div style="white-space: nowrap">
           {{args.content}}
         </div>
       </template>
-    </Popover>
+    </Tooltip>
   `
 })
 

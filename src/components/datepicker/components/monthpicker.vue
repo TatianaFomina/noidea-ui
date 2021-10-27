@@ -1,12 +1,12 @@
 <template>
   <div class="flex space-x-1">
-    <Popover ref="popover"
+    <Tooltip ref="tooltip"
              on="click"
     >
       <button class="text-gray-400 hover:text-gray-300">
         {{ month }} {{ year }}
       </button>
-      <template #popover>
+      <template #tooltip>
         <div class="w-36 space-y-2">
           <div class="w-full flex justify-between items-center">
             <button class="text-gray-400 rounded-full hover:bg-white hover:bg-opacity-20 p-0.5"
@@ -49,21 +49,21 @@
           </div>
         </div>
       </template>
-    </Popover>
+    </Tooltip>
   </div>
 </template>
 
 <script lang='ts'>
 import dayjs, { Dayjs } from 'dayjs'
 import { defineComponent, PropType } from 'vue'
-import Popover from '/~/components/popover/popover.vue'
+import Tooltip from '/~/components/tooltip/tooltip.vue'
 import ChevronLeftIcon from '../components/chevron-left-icon.vue'
 import ChevronRightIcon from '../components/chevron-right-icon.vue'
 
 export default defineComponent({
   name: 'MonthPicker',
   components: {
-    Popover,
+    Tooltip,
     ChevronLeftIcon,
     ChevronRightIcon
   },
@@ -128,11 +128,11 @@ export default defineComponent({
       }
     },
     selectMonth(monthIndex: number) {
-      this.$refs.popover.hide()
+      this.$refs.tooltip.hide()
       this.$emit('selectMonth', monthIndex)
     },
     selectYear(year: number) {
-      this.$refs.popover.hide()
+      this.$refs.tooltip.hide()
       this.$emit('selectYear', year)
     }
   }
