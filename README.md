@@ -14,6 +14,7 @@ npm install noidea-ui
 ```
 <script setup lang="ts">
   import { Button } from 'noidea-ui'
+  import 'noidea-ui/dist/style.css'
 </script>
 
 <template>
