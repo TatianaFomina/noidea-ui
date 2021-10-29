@@ -88,7 +88,7 @@ export default defineComponent({
     }
   },
   methods: {
-    onSelect(value: string | number) {
+    onSelect(value: string | number | undefined) {
       const currentValue = this.modelValue || []
       const newValue = [...currentValue, value]
 
