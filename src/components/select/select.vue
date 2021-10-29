@@ -107,15 +107,15 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      default: null
+      default: ''
     },
     placeholder: {
       type: String,
-      default: null
+      default: ''
     },
     error: {
       type: String,
-      default: null
+      default: ''
     },
     disabled: {
       type: Boolean,
@@ -135,7 +135,7 @@ export default defineComponent({
     },
     name: {
       type: String,
-      default: null
+      default: ''
     },
     /**
      * If false selected value will not be displayed

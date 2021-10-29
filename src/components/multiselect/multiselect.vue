@@ -63,7 +63,7 @@ export default defineComponent({
     },
     error: {
       type: String,
-      default: null
+      default: ''
     },
     disabled: {
       type: Boolean,
@@ -71,11 +71,11 @@ export default defineComponent({
     },
     name: {
       type: String,
-      default: null
+      default: ''
     },
     placeholder: {
       type: String,
-      default: null
+      default: ''
     }
   },
   emits: ['update:modelValue'],
