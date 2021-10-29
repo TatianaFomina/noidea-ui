@@ -34,7 +34,7 @@
         >
           {{ placeholder }}
         </span>
-        <span v-else>
+        <span v-else-if="showSelectedValue">
           {{ selectedOption && selectedOption.label }}
         </span>
       </div>
@@ -64,6 +64,12 @@
               @click="select(option, $event)"
           >
             {{ option.label }}
+          </li>
+
+          <li v-if="!options.length"
+              class="text-gray-200 px-4 h-9 leading-9"
+          >
+            No values available
           </li>
         </ul>
       </transition>
@@ -130,6 +136,13 @@ export default defineComponent({
     name: {
       type: String,
       default: null
+    },
+    /**
+     * If false selected value will not be displayed
+     */
+    showSelectedValue: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['update:modelValue'],

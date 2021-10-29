@@ -1,8 +1,8 @@
-import Select from '../components/select/select.vue'
+import Multiselect from '../components/multiselect/multiselect.vue'
 
 export default {
-  title: 'Form/Select',
-  component: Select,
+  title: 'Form/Multiselect',
+  component: Multiselect,
   argTypes: {
     label: { control: 'text', defaultValue: 'City' },
     disabled: { control: 'boolean', defaultValue: false },
@@ -15,14 +15,13 @@ export default {
         { label: 'Moscow', value: 2 },
         { label: 'Yekaterinburg', value: 3 }
       ]
-    },
-    showSelectedValue: { control: 'boolean', defaultValue: true }
+    }
   }
 
 }
 
 const Template = (args) => ({
-  components: { Select },
+  components: { Multiselect },
   setup() {
     return { args }
   },
@@ -31,7 +30,7 @@ const Template = (args) => ({
       selectedValue: null
     }
   },
-  template: '<div style="max-width: 320px"><Select v-bind="args" v-model="selectedValue"/></div>'
+  template: '<div style="max-width: 320px"><Multiselect v-bind="args" v-model="selectedValue"/></div>'
 })
 
 export const Default = Template.bind({})
@@ -44,9 +43,4 @@ Disabled.args = {
 export const Error = Template.bind({})
 Error.args = {
   error: 'Invalid value'
-}
-
-export const SelectedValueHidden = Template.bind({})
-SelectedValueHidden.args = {
-  showSelectedValue: false
 }
