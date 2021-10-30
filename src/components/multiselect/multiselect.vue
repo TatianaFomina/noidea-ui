@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-gray-500 text-sm space-y-0.5">
     <div v-if="label"
          class="flex px-4 text-xs font-medium "
     >
@@ -12,7 +12,9 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <div class="mb-3">
+    <div v-if="selectedOptions.length"
+         class="!mb-3"
+    >
       <Tag v-for="item in selectedOptions"
            :key="item.value"
            class="mx-0.5"
