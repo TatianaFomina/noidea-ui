@@ -29,12 +29,12 @@
            aria-labelledby="label"
            aria-controls="listbox"
       >
-        <span v-if="!selectedOption"
+        <span v-if="!selectedOption || !showSelectedValue"
               class="text-gray-300"
         >
           {{ placeholder }}
         </span>
-        <span v-else-if="showSelectedValue">
+        <span v-else>
           {{ selectedOption && selectedOption.label }}
         </span>
       </div>
@@ -67,7 +67,7 @@
           </li>
 
           <li v-if="!options.length"
-              class="text-gray-200 px-4 h-9 leading-9"
+              class="text-gray-300 px-4 h-9 leading-9"
           >
             No values available
           </li>

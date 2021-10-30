@@ -13,11 +13,11 @@
       </span>
     </div>
     <div v-if="selectedOptions.length"
-         class="!mb-3"
+         class="!mb-2 flex flex-wrap"
     >
       <Tag v-for="item in selectedOptions"
            :key="item.value"
-           class="mx-0.5"
+           class="mx-0.5 flex-grow-0 flex-shrink-0 my-0.5"
            closable
            @click="unselectOption(item)"
       >
