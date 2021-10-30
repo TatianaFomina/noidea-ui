@@ -19,7 +19,7 @@
       >
         <div
           class="pr-4 pl-3 font-medium leading-[20px] flex items-center focus:outline-none bg-transparent h-full"
-          :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'text-gray-300 cursor-default' : 'text-gray-400']"
+          :class="[error ? 'border-burgundy' : 'border-gray-300', disabled ? 'text-gray-300 cursor-default' : 'text-gray-400']"
         >
           <CalendarIcon class="w-4 h-4" />
         </div>

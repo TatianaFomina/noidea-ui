@@ -15,7 +15,7 @@
 
     <div v-click-away="close"
          class="w-full flex relative outline-none rounded-full border transition h-9 focus:ring"
-         :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
+         :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
          tabindex="0"
          @blur="close"
          @click="!disabled && toggle()"
@@ -60,7 +60,7 @@
               role="option"
               class="px-4 h-9 leading-9 truncate"
               :aria-selected="modelValue === option.value"
-              :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-gray-50']"
+              :class="[focusedIndex === i && 'bg-gray-50', modelValue === option.value ? 'bg-sky-50 bg-opacity-50' : 'hover:bg-gray-50']"
               @click="select(option, $event)"
           >
             {{ option.label }}
@@ -82,7 +82,7 @@
                 leave-to-class="opacity-0 -translate-y-full"
     >
       <div v-if="errorMessage"
-           class="text-xs text-red px-4 truncate font-medium"
+           class="text-xs text-burgundy px-4 truncate font-medium"
       >
         {{ errorMessage }}
       </div>

@@ -24,11 +24,11 @@ import Spinner from '../spinner/spinner.vue'
 
 const classes: { [look: string]: { [color: string]: string } } = {
   solid: {
-    primary: 'text-white bg-blue-200 hover:bg-blue-400 border-blue-400 border-b-2 disabled:bg-blue-100 disabled:text-blue-50 disabled:border-b-transparent ring-blue-50',
+    primary: 'text-white bg-sky-200 hover:bg-sky-400 border-sky-400 border-b-2 disabled:bg-sky-100 disabled:text-sky-50 disabled:border-b-transparent ring-sky-50',
     accent: 'text-white bg-pink-300 hover:bg-pink-500 border-pink-500 border-b-2 disabled:bg-pink-100 disabled:text-pink-50 disabled:border-b-transparent ring-pink-50'
   },
   border: {
-    primary: 'text-blue-300 border-2 border-blue-300 hover:text-white hover:bg-blue-300 disabled:bg-blue-50 disabled:text-blue-100 disabled:border-transparent ring-blue-50',
+    primary: 'text-sky-300 border-2 border-sky-300 hover:text-white hover:bg-sky-300 disabled:bg-sky-50 disabled:text-sky-100 disabled:border-transparent ring-sky-50',
     accent: 'text-pink-300 border-2 border-pink-300 hover:text-white hover:bg-pink-300 disabled:bg-pink-50 disabled:text-pink-100 disabled:border-transparent ring-pink-50'
   }
 }
@@ -39,7 +39,7 @@ const spinnerClasses: { [look: string]: { [color: string]: string } } = {
     accent: '!text-white'
   },
   border: {
-    primary: '!text-blue-300',
+    primary: '!text-sky-300',
     accent: '!text-pink-300'
   }
 }

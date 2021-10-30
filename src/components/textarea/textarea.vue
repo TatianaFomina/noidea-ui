@@ -14,7 +14,7 @@
     </div>
     <textarea class="border rounded-lg focus:ring outline-none px-2 py-1 placeholder-gray-300 w-full"
               :placeholder="placeholder"
-              :class="[!resizable && 'resize-none', error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50']"
+              :class="[!resizable && 'resize-none', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
               :disabled="disabled"
               :name="name"
               :rows="rows"
@@ -28,7 +28,7 @@
                 leave-to-class="opacity-0 -translate-y-full"
     >
       <div v-if="errorMessage"
-           class="text-xs text-red px-4 truncate font-medium"
+           class="text-xs text-burgundy px-4 truncate font-medium"
       >
         {{ errorMessage }}
       </div>

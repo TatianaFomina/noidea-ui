@@ -2,7 +2,7 @@
   <label class="text-sm space-x-3 font-medium flex items-center"
          :class="[disabled ? 'text-gray-300' : 'text-gray-500']"
   >
-    <div class="relative w-4 h-4 focus-within:ring ring-blue-50 rounded-sm bg-gray-50"
+    <div class="relative w-4 h-4 focus-within:ring ring-sky-50 rounded-sm bg-gray-50"
          :class="[disabled ? 'cursor-default' : 'cursor-pointer']"
     >
       <input type="checkbox"
@@ -13,7 +13,7 @@
              @keydown.space="toggleValue"
       >
       <div class="absolute inset-0 border border-gray-300 rounded-sm transition-colors outline-none"
-           :class="[!disabled && modelValue && 'bg-blue-400', disabled && modelValue && 'bg-blue-100']"
+           :class="[!disabled && modelValue && 'bg-sky-400', disabled && modelValue && 'bg-sky-100']"
            @click="toggleValue"
       >
 

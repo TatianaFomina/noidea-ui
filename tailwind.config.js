@@ -17,7 +17,7 @@ module.exports = {
         400: '#EB415B',
         500: '#D14E63'
       },
-      blue: {
+      sky: {
         50: '#C9E3F2',
         100: '#89C1E4',
         200: '#6EACD2',
@@ -25,7 +25,7 @@ module.exports = {
         400: '#1695E3',
         500: '#428EBE'
       },
-      sky: {
+      'blue-gray': {
         50: '#D8E9F0',
         100: '#C0CFD6'
       },
@@ -33,15 +33,8 @@ module.exports = {
         50: '#454553',
         100: '#3D3D4A'
       },
-      gray: {
-        50: '#F3F4F6',
-        100: '#E5E7EB',
-        200: '#D1D5DB',
-        300: '#9CA3AF',
-        400: '#6B7280',
-        500: '#4B5563'
-      },
-      red: '#eb4141'
+      gray: colors.gray,
+      burgundy: '#eb4141'
     }
   },
   variants: {

@@ -2,7 +2,7 @@
   <label class="text-sm space-x-3 font-medium flex items-center"
          :class="[disabled ? 'text-gray-300' : 'text-gray-500']"
   >
-    <div class="relative w-4 h-4 focus-within:ring ring-blue-50 rounded-full bg-gray-50 border border-gray-300"
+    <div class="relative w-4 h-4 focus-within:ring ring-sky-50 rounded-full bg-gray-50 border border-gray-300"
          :class="[disabled ? 'cursor-default' : 'cursor-pointer']"
     >
       <input type="radio"
@@ -14,7 +14,7 @@
       >
 
       <div class="absolute inset-0.5 rounded-full outline-none transition"
-           :class="[!disabled && modelValue && 'bg-blue-400', disabled && modelValue && 'bg-blue-100']"
+           :class="[!disabled && modelValue && 'bg-sky-400', disabled && modelValue && 'bg-sky-100']"
            @click="selectValue"
       />
 

@@ -60,12 +60,12 @@ const triangleRotations: { [position: string]: string } = {
 
 const backgrounds: { [mode: string]: string } = {
   dark: 'bg-gray-500 text-white',
-  light: 'bg-blue-50'
+  light: 'bg-sky-50'
 }
 
 const triangleBackgrounds: { [mode: string]: string} = {
   dark: 'text-gray-500',
-  light: 'text-blue-50'
+  light: 'text-sky-50'
 }
 
 export default defineComponent({

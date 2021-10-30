@@ -58,10 +58,10 @@
           <button v-for="(day, i) in daysOfPrevMonthCount"
                   :key="day"
                   :tabindex="isDateSelectedPrevMonth(day) ? 0 : -1"
-                  class="text-gray-200 w-7 h-7 leading-7 text-center"
+                  class="text-gray-300 w-7 h-7 leading-7 text-center"
                   @click="selectValuePrevMonth(day)"
           >
-            <p class="rounded-full hover:bg-gray-50">
+            <p class="rounded-full hover:bg-gray-100">
               {{ firstDayOfPrevMonthDisplayed + i }}
             </p>
           </button>
@@ -72,7 +72,7 @@
                   @click="selectValue(day)"
           >
             <p class="rounded-full"
-               :class="[isDateSelected(day) ? 'bg-blue-50' : 'hover:bg-gray-50']"
+               :class="[isDateSelected(day) ? 'bg-sky-50' : 'hover:bg-gray-100']"
             >
               {{ day }}
             </p>
@@ -80,10 +80,10 @@
           <button v-for="day in daysOfNextMonthCount"
                   :key="day"
                   :tabindex="isDateSelectedNextMonth(day) ? 0 : -1"
-                  class="text-gray-200 w-7 h-7 leading-7 text-center"
+                  class="text-gray-300 w-7 h-7 leading-7 text-center"
                   @click="selectValueNextMonth(day)"
           >
-            <p class="rounded-full hover:bg-gray-50">
+            <p class="rounded-full hover:bg-gray-100">
               {{ day }}
             </p>
           </button>

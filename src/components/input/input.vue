@@ -13,7 +13,7 @@
       </span>
     </div>
     <div class="flex rounded-full border transition focus-within:ring"
-         :class="[error ? 'border-red border-opacity-30 ring-red ring-opacity-25' : 'border-gray-200 ring-blue-50 ring-opacity-50', disabled ? 'bg-gray-50' : 'bg-whitehover:text-gray-300']"
+         :class="[error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50', disabled ? 'bg-gray-50' : 'bg-whitehover:text-gray-300']"
     >
       <input id="input"
              ref="input"
@@ -29,7 +29,7 @@
       <button v-if="!$slots.suffix && isPassword"
               aria-label="Toggle password visibility"
               class="pr-4 pl-3 font-medium leading-[20px] flex items-center focus:outline-none"
-              :class="[error ? 'border-red' : 'border-gray-300', disabled ? 'cursor-default text-gray-300' : 'text-gray-400']"
+              :class="[error ? 'border-burgundy' : 'border-gray-300', disabled ? 'cursor-default text-gray-300' : 'text-gray-400']"
               @click="togglePasswordVisibility"
       >
         <EyeIcon v-if="proxyType === 'password'"
@@ -49,7 +49,7 @@
                 leave-to-class="opacity-0 -translate-y-full"
     >
       <div v-if="errorMessage"
-           class="text-xs text-red px-4 truncate font-medium"
+           class="text-xs text-burgundy px-4 truncate font-medium"
       >
         {{ errorMessage }}
       </div>

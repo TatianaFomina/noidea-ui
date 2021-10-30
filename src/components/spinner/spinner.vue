@@ -1,7 +1,7 @@
 <template>
   <svg :width="width"
        :height="width"
-       class="text-sky-100 animate-spin"
+       class="text-blue-gray-100 animate-spin"
   >
     <circle id="circle"
             stroke-linecap="round"

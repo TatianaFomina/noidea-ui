@@ -1,6 +1,6 @@
 <template>
-  <span class="bg-blue-100 text-white text-sm py-0.5 pl-2.5 rounded-full leading-tight pb-1"
-        :class="[closable ? 'pr-1.5 hover:bg-blue-200 cursor-pointer' : 'pr-2.5']"
+  <span class="bg-sky-100 text-white text-sm py-0.5 pl-2.5 rounded-full leading-tight pb-1"
+        :class="[closable ? 'pr-1.5 hover:bg-sky-200 cursor-pointer' : 'pr-2.5']"
   >
     <slot />
     <XIcon v-if="closable"
