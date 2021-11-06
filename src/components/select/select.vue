@@ -164,6 +164,11 @@ export default defineComponent({
       immediate: true
     }
   },
+  mounted() {
+    if (this.modelValue) {
+      this.selectedOption = this.options.find((option: SelectOption) => option.value === this.modelValue)
+    }
+  },
   methods: {
     toggle() {
       if (this.isOpen) {

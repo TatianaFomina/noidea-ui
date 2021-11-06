@@ -12,7 +12,8 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <textarea class="border rounded-lg focus:ring outline-none px-2 py-1 placeholder-gray-300 w-full"
+    <textarea class="border rounded-lg focus:ring outline-none px-4 py-1 placeholder-gray-300 w-full"
+              :value="modelValue"
               :placeholder="placeholder"
               :class="[!resizable && 'resize-none', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
               :disabled="disabled"
