@@ -52,7 +52,9 @@
       >
         <ul v-if="isOpen"
             id="listbox"
-            class="absolute top-[120%] rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm"
+            ref="popover"
+            class="absolute rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm"
+            :class="[popoverPosition === Positions.BOTTOM ? 'top-[120%]' : 'bottom-[120%]']"
             role="listbox"
         >
           <li v-for="(option, i) of options"
@@ -97,6 +99,11 @@ import { directive } from 'vue3-click-away'
 export interface SelectOption {
   label: string
   value: any
+}
+
+enum Positions {
+  BOTTOM,
+  TOP
 }
 
 export default defineComponent({
@@ -151,7 +158,9 @@ export default defineComponent({
       isOpen: false,
       focusedIndex: -1,
       selectedOption: null as unknown as SelectOption,
-      errorMessage: null
+      errorMessage: null,
+      popoverPosition: Positions.BOTTOM,
+      Positions: Positions
     }
   },
   watch: {
@@ -179,6 +188,10 @@ export default defineComponent({
     },
     open() {
       this.isOpen = true
+
+      this.$nextTick(() => {
+        this.setPopoverPosition()
+      })
     },
     close() {
       this.isOpen = false
@@ -212,6 +225,18 @@ export default defineComponent({
 
       if (e) {
         e.stopPropagation()
+      }
+    },
+    setPopoverPosition() {
+      const { popover } = this.$refs
+
+      const fitsBottom = popover.offsetHeight + popover.offsetTop <= window.innerHeight
+      const fitsTop = popover.offsetTop - popover.offsetHeight >= 0
+
+      if (!fitsBottom && fitsTop) {
+        this.popoverPosition = Positions.TOP
+      } else {
+        this.popoverPositions = Positions.BOTTOM
       }
     }
   }
