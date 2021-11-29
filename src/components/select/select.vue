@@ -235,8 +235,6 @@ export default defineComponent({
 
       if (!fitsBottom && fitsTop) {
         this.popoverPosition = Positions.TOP
-      } else {
-        this.popoverPositions = Positions.BOTTOM
       }
     }
   }
