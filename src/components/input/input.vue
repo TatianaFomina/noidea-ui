@@ -103,7 +103,7 @@ export default defineComponent({
       default: ''
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'input'],
   data() {
     return {
       errorMessage: '',
@@ -136,7 +136,10 @@ export default defineComponent({
   },
   methods: {
     handleInput(e: Event) {
-      this.$emit('update:modelValue', (e.target as HTMLInputElement).value)
+      const value = (e.target as HTMLInputElement).value
+
+      this.$emit('update:modelValue', value)
+      this.$emit('input', value)
     },
     togglePasswordVisibility() {
       if (this.proxyType === 'password') {

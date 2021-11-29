@@ -1,4 +1,5 @@
 import Input from '../components/input/input.vue'
+import { action } from '@storybook/addon-actions'
 
 export default {
   title: 'Form/Input',
@@ -8,15 +9,19 @@ export default {
     label: { control: 'text', defaultValue: 'Name' },
     disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text' },
-    error: { control: 'text' }
+    error: { control: 'text' },
+    onInput: {}
   }
+}
 
+const actionsData = {
+  onInput: action('input')
 }
 
 const Template = (args) => ({
   components: { Input },
   setup() {
-    return { args }
+    return { args, ...actionsData }
   },
   data() {
     return {
