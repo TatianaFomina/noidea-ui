@@ -16,6 +16,7 @@ export default {
         { label: 'Yekaterinburg', value: 3 }
       ]
     },
+    searchable: { control: 'boolean', defaultValue: false },
     showSelectedValue: { control: 'boolean', defaultValue: true }
   }
 
@@ -49,4 +50,9 @@ Error.args = {
 export const SelectedValueHidden = Template.bind({})
 SelectedValueHidden.args = {
   showSelectedValue: false
+}
+
+export const Searchable = Template.bind({})
+Searchable.args = {
+  searchable: true
 }

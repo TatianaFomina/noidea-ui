@@ -12,16 +12,16 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-
     <div v-click-away="close"
-         class="w-full flex relative outline-none rounded-full border transition h-9 focus:ring"
+         class="w-full flex relative outline-none rounded-full border transition h-9 focus-within:ring"
          :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
          tabindex="0"
+         @focus="onFocus"
          @blur="close"
          @click="!disabled && toggle()"
          @keydown="!disabled && onKeydown($event)"
     >
-      <div class="flex-1 px-4 leading-[34px] truncate"
+      <div class="flex-1 px-4 leading-[34px] truncate relative"
            :aria-expanded="isOpen"
            aria-haspopup="listbox"
            role="combobox"
@@ -29,14 +29,25 @@
            aria-labelledby="label"
            aria-controls="listbox"
       >
-        <span v-if="!selectedOption || !showSelectedValue"
+        <span v-if="(!selectedOption || !showSelectedValue) && !searchQuery"
               class="text-gray-300"
         >
           {{ placeholder }}
         </span>
-        <span v-else>
+        <span v-else-if="!searchable || searchable && !searchInputFocused">
           {{ selectedOption && selectedOption.label }}
         </span>
+        <input v-if="searchable"
+               ref="searchQueryInput"
+               v-model="searchQuery"
+               type="text"
+               class="focus:outline-none absolute left-4 bg-transparent"
+               name="search"
+               autocomplete="off"
+               @input="onSearchQueryInput"
+               @focus="onSearchInputFocus"
+               @blur="onSearchInputBlur"
+        >
       </div>
       <div class="flex items-center px-4">
         <div class="arrow-down my-auto transition-transform"
@@ -150,9 +161,13 @@ export default defineComponent({
     showSelectedValue: {
       type: Boolean,
       default: true
+    },
+    searchable: {
+      type: Boolean,
+      default: false
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'searchQueryInput'],
   data() {
     return {
       isOpen: false,
@@ -160,7 +175,9 @@ export default defineComponent({
       selectedOption: null as unknown as SelectOption,
       errorMessage: null,
       popoverPosition: Positions.BOTTOM,
-      Positions: Positions
+      Positions: Positions,
+      searchQuery: '',
+      searchInputFocused: false
     }
   },
   watch: {
@@ -197,6 +214,17 @@ export default defineComponent({
       this.isOpen = false
       this.focusedIndex = -1
     },
+    onFocus(e) {
+      console.log('search focus')
+
+      if (!this.searchable) {
+        return
+      }
+      // e.preventDefault()
+      const { searchQueryInput } = this.$refs
+
+      searchQueryInput.focus()
+    },
     onKeydown(e: KeyboardEvent) {
       switch (e.code) {
         case 'Enter':
@@ -222,6 +250,7 @@ export default defineComponent({
       this.$emit('update:modelValue', option.value)
       this.selectedOption = option
       this.close()
+      this.searchQuery = ''
 
       if (e) {
         e.stopPropagation()
@@ -236,6 +265,19 @@ export default defineComponent({
       if (!fitsBottom && fitsTop) {
         this.popoverPosition = Positions.TOP
       }
+    },
+    onSearchInputFocus() {
+      console.log('search focus')
+
+      this.searchInputFocused = true
+    },
+    onSearchInputBlur() {
+      console.log('search blur')
+      this.searchInputFocused = false
+      this.searchQuery = ''
+    },
+    onSearchQueryInput(e: InputEvent) {
+      this.$emit('searchQueryInput', (e.target as HTMLInputElement).value)
     }
   }
 })
