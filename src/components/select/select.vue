@@ -12,16 +12,16 @@
         {{ required ? '&nbsp;*' : '' }}
       </span>
     </div>
-    <div v-click-away="close"
+    <div ref="wrapper"
+         v-click-away="close"
          class="w-full flex relative outline-none rounded-full border transition h-9 focus-within:ring"
          :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
          tabindex="0"
-         @focus="onFocus"
-         @blur="close"
-         @click="!disabled && toggle()"
+         @blur="!searchable && close"
+         @click="onClick"
          @keydown="!disabled && onKeydown($event)"
     >
-      <div class="flex-1 px-4 leading-[34px] truncate relative"
+      <div class="flex-1 px-4 leading-[34px] truncate"
            :aria-expanded="isOpen"
            aria-haspopup="listbox"
            role="combobox"
@@ -37,18 +37,18 @@
         <span v-else-if="!searchable || searchable && !searchInputFocused">
           {{ selectedOption && selectedOption.label }}
         </span>
-        <input v-if="searchable"
-               ref="searchQueryInput"
-               v-model="searchQuery"
-               type="text"
-               class="focus:outline-none absolute left-4 bg-transparent"
-               name="search"
-               autocomplete="off"
-               @input="onSearchQueryInput"
-               @focus="onSearchInputFocus"
-               @blur="onSearchInputBlur"
-        >
       </div>
+      <input v-if="searchable"
+             ref="searchQueryInput"
+             v-model="searchQuery"
+             type="text"
+             class="focus:outline-none absolute left-0 w-full h-full rounded-full pl-4 bg-transparent z-10"
+             name="search"
+             autocomplete="off"
+             @input="onSearchQueryInput"
+             @focus="onSearchInputFocus"
+             @blur="onSearchInputBlur"
+      >
       <div class="flex items-center px-4">
         <div class="arrow-down my-auto transition-transform"
              :class="[isOpen && 'transform rotate-180']"
@@ -83,6 +83,10 @@
               class="text-gray-300 px-4 h-9 leading-9"
           >
             No values available
+          </li>
+
+          <li v-if="$slots.bottom">
+            <slot name="bottom" />
           </li>
         </ul>
       </transition>
@@ -167,7 +171,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['update:modelValue', 'searchQueryInput'],
+  emits: ['update:modelValue', 'searchQueryInput', 'select'],
   data() {
     return {
       isOpen: false,
@@ -213,17 +217,19 @@ export default defineComponent({
     close() {
       this.isOpen = false
       this.focusedIndex = -1
-    },
-    onFocus(e) {
-      console.log('search focus')
+      const { wrapper } = this.$refs
 
-      if (!this.searchable) {
+      wrapper.focus()
+
+      if (this.searchable) {
+        this.$emit('searchQueryInput', '')
+      }
+    },
+    onClick() {
+      if (this.disabled) {
         return
       }
-      // e.preventDefault()
-      const { searchQueryInput } = this.$refs
-
-      searchQueryInput.focus()
+      this.toggle()
     },
     onKeydown(e: KeyboardEvent) {
       switch (e.code) {
@@ -248,6 +254,7 @@ export default defineComponent({
     },
     select(option: SelectOption, e?: Event) {
       this.$emit('update:modelValue', option.value)
+      this.$emit('select', option)
       this.selectedOption = option
       this.close()
       this.searchQuery = ''
@@ -267,16 +274,13 @@ export default defineComponent({
       }
     },
     onSearchInputFocus() {
-      console.log('search focus')
-
       this.searchInputFocused = true
     },
     onSearchInputBlur() {
-      console.log('search blur')
       this.searchInputFocused = false
       this.searchQuery = ''
     },
-    onSearchQueryInput(e: InputEvent) {
+    onSearchQueryInput(e: Event) {
       this.$emit('searchQueryInput', (e.target as HTMLInputElement).value)
     }
   }

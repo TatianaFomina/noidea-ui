@@ -7,15 +7,8 @@ export default {
     label: { control: 'text', defaultValue: 'City' },
     disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text', defaultValue: 'Select a value' },
-    error: { control: 'text' },
-    options: {
-      control: 'object',
-      defaultValue: [
-        { label: 'Saint Petersburg', value: 1 },
-        { label: 'Moscow', value: 2 },
-        { label: 'Yekaterinburg', value: 3 }
-      ]
-    }
+    searchable: { control: 'boolean', defaultValue: false },
+    error: { control: 'text' }
   }
 
 }
@@ -27,13 +20,36 @@ const Template = (args) => ({
   },
   data() {
     return {
-      selectedValue: null
+      selectedValue: null,
+      filteredOptions: [],
+      options: [
+        { label: 'Saint Petersburg', value: 1 },
+        { label: 'Moscow', value: 2 },
+        { label: 'Yekaterinburg', value: 3 }
+      ]
     }
   },
-  template: '<div style="max-width: 320px"><Multiselect v-bind="args" v-model="selectedValue"/></div>'
+  mounted() {
+    this.filteredOptions = [...this.options]
+  },
+  methods: {
+    performSearch(query) {
+      if (!query) {
+        this.filteredOptions = [...this.options]
+        return
+      }
+      this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(query.toLowerCase()))
+    }
+  },
+  template: '<div style="max-width: 320px"><Multiselect v-bind="args" :options="filteredOptions" v-model="selectedValue" @searchQueryInput="performSearch"/></div>'
 })
 
 export const Default = Template.bind({})
+
+export const Searchable = Template.bind({})
+Searchable.args = {
+  searchable: true
+}
 
 export const Disabled = Template.bind({})
 Disabled.args = {

@@ -30,8 +30,14 @@
             :name="name"
             :placeholder="placeholder"
             :show-selected-value="false"
-            @update:modelValue="onSelect"
-    />
+            :searchable="searchable"
+            @select="onSelect"
+            @searchQueryInput="onSearchQueryInput"
+    >
+      <template #bottom>
+        <slot name="bottom" />
+      </template>
+    </Select>
   </div>
 </template>
 
@@ -78,28 +84,39 @@ export default defineComponent({
     placeholder: {
       type: String,
       default: ''
+    },
+    searchable: {
+      type: Boolean,
+      default: false
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'searchQueryInput'],
+  data() {
+    return {
+      selectedOptions: [] as SelectOption[]
+    }
+  },
   computed: {
-    selectedOptions(): SelectOption[] {
-      return this.modelValue ? this.options.filter((option: SelectOption) => this.modelValue.includes(option.value)) : []
-    },
     availableOptions(): SelectOption[] {
       return this.modelValue ? this.options.filter((option: SelectOption) => !this.modelValue.includes(option.value)) : this.options
     }
   },
   methods: {
-    onSelect(value: string | number | undefined) {
+    onSelect(option: SelectOption) {
       const currentValue = this.modelValue || []
-      const newValue = [...currentValue, value]
+      const newValue = [...currentValue, option.value]
 
+      this.selectedOptions.push(option)
       this.$emit('update:modelValue', newValue)
     },
     unselectOption(option: SelectOption) {
+      this.selectedOptions = this.selectedOptions.filter((o: SelectOption) => o.value !== option.value)
       const newValue = this.modelValue.filter((value: number | string) => value !== option.value)
 
       this.$emit('update:modelValue', newValue)
+    },
+    onSearchQueryInput(query: string) {
+      this.$emit('searchQueryInput', query)
     }
   }
 })

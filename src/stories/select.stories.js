@@ -8,18 +8,10 @@ export default {
     disabled: { control: 'boolean', defaultValue: false },
     placeholder: { control: 'text', defaultValue: 'Select a value' },
     error: { control: 'text' },
-    options: {
-      control: 'object',
-      defaultValue: [
-        { label: 'Saint Petersburg', value: 1 },
-        { label: 'Moscow', value: 2 },
-        { label: 'Yekaterinburg', value: 3 }
-      ]
-    },
     searchable: { control: 'boolean', defaultValue: false },
-    showSelectedValue: { control: 'boolean', defaultValue: true }
+    showSelectedValue: { control: 'boolean', defaultValue: true },
+    bottomSlotContent: { control: 'text', defaultValue: '' }
   }
-
 }
 
 const Template = (args) => ({
@@ -29,13 +21,41 @@ const Template = (args) => ({
   },
   data() {
     return {
-      selectedValue: null
+      selectedValue: null,
+      filteredOptions: [],
+      options: [
+        { label: 'Saint Petersburg', value: 1 },
+        { label: 'Moscow', value: 2 },
+        { label: 'Yekaterinburg', value: 3 }
+      ]
     }
   },
-  template: '<div style="max-width: 320px"><Select v-bind="args" v-model="selectedValue"/></div>'
+  mounted() {
+    this.filteredOptions = [...this.options]
+  },
+  methods: {
+    performSearch(query) {
+      if (!query) {
+        this.filteredOptions = [...this.options]
+        return
+      }
+      this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(query.toLowerCase()))
+    }
+  },
+  template: `
+    <div style="max-width: 320px">
+      <Select v-bind="args" v-model="selectedValue" :options="filteredOptions" @searchQueryInput="performSearch">
+        <template #bottom>{{ args.bottomSlotContent }}</template>
+      </Select>
+    </div>`
 })
 
 export const Default = Template.bind({})
+
+export const HasSlotBottom = Template.bind({})
+HasSlotBottom.args = {
+  bottomSlotContent: 'This is bottom slot content. Anything can be placed here'
+}
 
 export const Disabled = Template.bind({})
 Disabled.args = {
@@ -54,5 +74,6 @@ SelectedValueHidden.args = {
 
 export const Searchable = Template.bind({})
 Searchable.args = {
-  searchable: true
+  searchable: true,
+  placeholder: 'Enter search query'
 }
