@@ -13,7 +13,7 @@
       </span>
     </div>
     <div ref="wrapper"
-         v-click-away="close"
+         v-click-away="onOutsideClick"
          class="w-full flex relative outline-none rounded-full border transition h-9 focus-within:ring"
          :class="[disabled ? 'cursor-default bg-gray-50' : 'cursor-pointer', error ? 'border-burgundy border-opacity-30 ring-burgundy ring-opacity-25' : 'border-gray-200 ring-sky-50 ring-opacity-50']"
          tabindex="0"
@@ -64,7 +64,7 @@
         <ul v-if="isOpen"
             id="listbox"
             ref="popover"
-            class="absolute rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm"
+            class="absolute rounded-2xl border border-gray-200 w-full py-2 overflow-hidden bg-white shadow-sm z-10"
             :class="[popoverPosition === Positions.BOTTOM ? 'top-[120%]' : 'bottom-[120%]']"
             role="listbox"
         >
@@ -214,9 +214,13 @@ export default defineComponent({
         this.setPopoverPosition()
       })
     },
-    close() {
+    close(shouldFocusWrapper = true) {
       this.isOpen = false
       this.focusedIndex = -1
+
+      if (!shouldFocusWrapper) {
+        return
+      }
       const { wrapper } = this.$refs
 
       wrapper.focus()
@@ -224,6 +228,9 @@ export default defineComponent({
       if (this.searchable) {
         this.$emit('searchQueryInput', '')
       }
+    },
+    onOutsideClick() {
+      this.close(false)
     },
     onClick() {
       if (this.disabled) {
